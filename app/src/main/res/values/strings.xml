@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ScoreCards</string>
+    <string name="maxRank">Max Rank \n <b> master</b></string>
+    <string name="currentRank">Rank \n <b>Newbie</b></string>
+    <string name="currentRatingNum">Rating \n <b>1069 </b></string>
+    <string name="noOfProblems">168 \n Problems Solved</string>
+    <string name="maxRating">Max Rating \n <b>1001</b></string>
 </resources>
