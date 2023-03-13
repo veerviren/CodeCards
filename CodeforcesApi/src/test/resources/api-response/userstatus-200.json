@@ -1,0 +1,783 @@
+{
+  "status": "OK",
+  "result": [
+    {
+      "id": 197185357,
+      "contestId": 1804,
+      "creationTimeSeconds": 1678684160,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1804,
+        "index": "C",
+        "name": "Pull Your Luck",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "tags": [
+          "brute force",
+          "greedy",
+          "math",
+          "number theory"
+        ]
+      },
+      "author": {
+        "contestId": 1804,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1678631700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 40,
+      "timeConsumedMillis": 31,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 197185224,
+      "contestId": 1804,
+      "creationTimeSeconds": 1678684062,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1804,
+        "index": "C",
+        "name": "Pull Your Luck",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "tags": [
+          "brute force",
+          "greedy",
+          "math",
+          "number theory"
+        ]
+      },
+      "author": {
+        "contestId": 1804,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1678631700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "TIME_LIMIT_EXCEEDED",
+      "testset": "TESTS",
+      "passedTestCount": 1,
+      "timeConsumedMillis": 1000,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 197105319,
+      "contestId": 1804,
+      "creationTimeSeconds": 1678635515,
+      "relativeTimeSeconds": 3815,
+      "problem": {
+        "contestId": 1804,
+        "index": "B",
+        "name": "Vaccination",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "tags": [
+          "greedy",
+          "implementation",
+          "two pointers"
+        ]
+      },
+      "author": {
+        "contestId": 1804,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "ghost": false,
+        "room": 303,
+        "startTimeSeconds": 1678631700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 39,
+      "timeConsumedMillis": 77,
+      "memoryConsumedBytes": 1638400
+    },
+    {
+      "id": 197101487,
+      "contestId": 1804,
+      "creationTimeSeconds": 1678634986,
+      "relativeTimeSeconds": 3286,
+      "problem": {
+        "contestId": 1804,
+        "index": "B",
+        "name": "Vaccination",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "tags": [
+          "greedy",
+          "implementation",
+          "two pointers"
+        ]
+      },
+      "author": {
+        "contestId": 1804,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "ghost": false,
+        "room": 303,
+        "startTimeSeconds": 1678631700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "WRONG_ANSWER",
+      "testset": "PRETESTS",
+      "passedTestCount": 1,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 197091482,
+      "contestId": 1804,
+      "creationTimeSeconds": 1678633737,
+      "relativeTimeSeconds": 2037,
+      "problem": {
+        "contestId": 1804,
+        "index": "A",
+        "name": "Lame King",
+        "type": "PROGRAMMING",
+        "points": 500.0,
+        "tags": [
+          "greedy",
+          "math"
+        ]
+      },
+      "author": {
+        "contestId": 1804,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "ghost": false,
+        "room": 303,
+        "startTimeSeconds": 1678631700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 9,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 196339211,
+      "contestId": 1709,
+      "creationTimeSeconds": 1678167969,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1709,
+        "index": "B",
+        "name": "Also Try Minecraft",
+        "type": "PROGRAMMING",
+        "rating": 900,
+        "tags": [
+          "data structures",
+          "dp",
+          "implementation"
+        ]
+      },
+      "author": {
+        "contestId": 1709,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1658414100
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 14,
+      "timeConsumedMillis": 124,
+      "memoryConsumedBytes": 2457600
+    },
+    {
+      "id": 196337349,
+      "contestId": 1714,
+      "creationTimeSeconds": 1678166445,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1714,
+        "index": "A",
+        "name": "Everyone Loves to Sleep",
+        "type": "PROGRAMMING",
+        "rating": 900,
+        "tags": [
+          "implementation",
+          "math"
+        ]
+      },
+      "author": {
+        "contestId": 1714,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1659364500
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 6,
+      "timeConsumedMillis": 0,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 196244043,
+      "contestId": 1501,
+      "creationTimeSeconds": 1678101215,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1501,
+        "index": "B",
+        "name": "Napoleon Cake",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "rating": 900,
+        "tags": [
+          "dp",
+          "implementation",
+          "sortings"
+        ]
+      },
+      "author": {
+        "contestId": 1501,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1615626300
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 20,
+      "timeConsumedMillis": 92,
+      "memoryConsumedBytes": 1638400
+    },
+    {
+      "id": 196236279,
+      "contestId": 1720,
+      "creationTimeSeconds": 1678096991,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1720,
+        "index": "A",
+        "name": "Burenka Plays with Fractions",
+        "type": "PROGRAMMING",
+        "points": 500.0,
+        "rating": 900,
+        "tags": [
+          "math",
+          "number theory"
+        ]
+      },
+      "author": {
+        "contestId": 1720,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1660829700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 39,
+      "timeConsumedMillis": 31,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 196180085,
+      "contestId": 1733,
+      "creationTimeSeconds": 1678044623,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1733,
+        "index": "B",
+        "name": "Rule of League",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "rating": 900,
+        "tags": [
+          "constructive algorithms",
+          "math"
+        ]
+      },
+      "author": {
+        "contestId": 1733,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1663598100
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 8,
+      "timeConsumedMillis": 46,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 196179735,
+      "contestId": 1733,
+      "creationTimeSeconds": 1678044417,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1733,
+        "index": "B",
+        "name": "Rule of League",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "rating": 900,
+        "tags": [
+          "constructive algorithms",
+          "math"
+        ]
+      },
+      "author": {
+        "contestId": 1733,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1663598100
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "TIME_LIMIT_EXCEEDED",
+      "testset": "TESTS",
+      "passedTestCount": 0,
+      "timeConsumedMillis": 2000,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 196175797,
+      "contestId": 1737,
+      "creationTimeSeconds": 1678042171,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1737,
+        "index": "A",
+        "name": "Ela Sorting Books",
+        "type": "PROGRAMMING",
+        "points": 500.0,
+        "rating": 900,
+        "tags": [
+          "greedy",
+          "implementation",
+          "strings"
+        ]
+      },
+      "author": {
+        "contestId": 1737,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1665153300
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 13,
+      "timeConsumedMillis": 0,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 196045546,
+      "contestId": 1794,
+      "creationTimeSeconds": 1677956554,
+      "relativeTimeSeconds": 5254,
+      "problem": {
+        "contestId": 1794,
+        "index": "C",
+        "name": "Scoring Subsequences",
+        "type": "PROGRAMMING",
+        "points": 1250.0,
+        "tags": [
+          "binary search",
+          "greedy",
+          "math",
+          "two pointers"
+        ]
+      },
+      "author": {
+        "contestId": 1794,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "ghost": false,
+        "room": 193,
+        "startTimeSeconds": 1677951300
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 28,
+      "timeConsumedMillis": 234,
+      "memoryConsumedBytes": 4096000
+    },
+    {
+      "id": 196025957,
+      "contestId": 1794,
+      "creationTimeSeconds": 1677953761,
+      "relativeTimeSeconds": 2461,
+      "problem": {
+        "contestId": 1794,
+        "index": "B",
+        "name": "Not Dividing",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "math"
+        ]
+      },
+      "author": {
+        "contestId": 1794,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "ghost": false,
+        "room": 193,
+        "startTimeSeconds": 1677951300
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 30,
+      "timeConsumedMillis": 46,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 196020353,
+      "contestId": 1794,
+      "creationTimeSeconds": 1677953167,
+      "relativeTimeSeconds": 1867,
+      "problem": {
+        "contestId": 1794,
+        "index": "A",
+        "name": "Prefix and Suffix Array",
+        "type": "PROGRAMMING",
+        "points": 750.0,
+        "tags": [
+          "strings"
+        ]
+      },
+      "author": {
+        "contestId": 1794,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "CONTESTANT",
+        "ghost": false,
+        "room": 193,
+        "startTimeSeconds": 1677951300
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 11,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 195964636,
+      "contestId": 1744,
+      "creationTimeSeconds": 1677932232,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1744,
+        "index": "B",
+        "name": "Even-Odd Increments ",
+        "type": "PROGRAMMING",
+        "rating": 800,
+        "tags": [
+          "implementation",
+          "math"
+        ]
+      },
+      "author": {
+        "contestId": 1744,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1665930900
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 10,
+      "timeConsumedMillis": 124,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 195959982,
+      "contestId": 1746,
+      "creationTimeSeconds": 1677930144,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1746,
+        "index": "B",
+        "name": "Rebellion",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "rating": 800,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "two pointers"
+        ]
+      },
+      "author": {
+        "contestId": 1746,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1665844500
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "WRONG_ANSWER",
+      "testset": "TESTS",
+      "passedTestCount": 1,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 195959758,
+      "contestId": 1746,
+      "creationTimeSeconds": 1677930039,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1746,
+        "index": "B",
+        "name": "Rebellion",
+        "type": "PROGRAMMING",
+        "points": 1000.0,
+        "rating": 800,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "two pointers"
+        ]
+      },
+      "author": {
+        "contestId": 1746,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1665844500
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "WRONG_ANSWER",
+      "testset": "TESTS",
+      "passedTestCount": 1,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 195957957,
+      "contestId": 1744,
+      "creationTimeSeconds": 1677929201,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1744,
+        "index": "A",
+        "name": "Number Replacement",
+        "type": "PROGRAMMING",
+        "rating": 800,
+        "tags": [
+          "greedy",
+          "implementation"
+        ]
+      },
+      "author": {
+        "contestId": 1744,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1665930900
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 5,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 195955180,
+      "contestId": 1734,
+      "creationTimeSeconds": 1677927819,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1734,
+        "index": "B",
+        "name": "Bright, Nice, Brilliant",
+        "type": "PROGRAMMING",
+        "points": 750.0,
+        "rating": 800,
+        "tags": [
+          "constructive algorithms"
+        ]
+      },
+      "author": {
+        "contestId": 1734,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1663934700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 13,
+      "timeConsumedMillis": 15,
+      "memoryConsumedBytes": 0
+    },
+    {
+      "id": 195953740,
+      "contestId": 1734,
+      "creationTimeSeconds": 1677927130,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1734,
+        "index": "A",
+        "name": "Select Three Sticks",
+        "type": "PROGRAMMING",
+        "points": 500.0,
+        "rating": 800,
+        "tags": [
+          "brute force",
+          "greedy",
+          "sortings"
+        ]
+      },
+      "author": {
+        "contestId": 1734,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1663934700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "OK",
+      "testset": "TESTS",
+      "passedTestCount": 13,
+      "timeConsumedMillis": 0,
+      "memoryConsumedBytes": 102400
+    },
+    {
+      "id": 195952400,
+      "contestId": 1734,
+      "creationTimeSeconds": 1677926469,
+      "relativeTimeSeconds": 2147483647,
+      "problem": {
+        "contestId": 1734,
+        "index": "A",
+        "name": "Select Three Sticks",
+        "type": "PROGRAMMING",
+        "points": 500.0,
+        "rating": 800,
+        "tags": [
+          "brute force",
+          "greedy",
+          "sortings"
+        ]
+      },
+      "author": {
+        "contestId": 1734,
+        "members": [
+          {
+            "handle": "direction_"
+          }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1663934700
+      },
+      "programmingLanguage": "GNU C++17",
+      "verdict": "WRONG_ANSWER",
+      "testset": "TESTS",
+      "passedTestCount": 1,
+      "timeConsumedMillis": 0,
+      "memoryConsumedBytes": 0
+    }
+  ]
+}

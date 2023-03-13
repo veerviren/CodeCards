@@ -13,4 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "ScoreCards"
-include ':app'
+include ":app"
+include ":CodeforcesApi"
