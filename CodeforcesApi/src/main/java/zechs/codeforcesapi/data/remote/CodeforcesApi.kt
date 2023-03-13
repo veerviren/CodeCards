@@ -10,7 +10,7 @@ interface CodeforcesApi {
 
     @GET("api/user.info")
     suspend fun getUserInfo(
-        @Query("handle") handle: String
+        @Query("handles") handle: String
     ): Response<UserInfoResponse>
 
     @GET("api/user.status")
