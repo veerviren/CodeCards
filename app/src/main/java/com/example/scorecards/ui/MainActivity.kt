@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
                                 currentRank.text = getString(R.string.currentRank, user.rank)
                                 currentRating.text = getString(R.string.currentRatingNum, user.rating)
                                 maxRating.text = getString(R.string.maxRating, user.maxRating)
+                                queSolved.text = getString(R.string.noOfProblems, user.totalQuestionsSolved)
+//                                userImage.imageAlpha = user.avatar
                             }
                         }
                     }
