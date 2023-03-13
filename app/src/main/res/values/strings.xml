@@ -5,4 +5,5 @@
     <string name="currentRatingNum">Rating \n <b>%d</b></string>
     <string name="noOfProblems">%d \n Problems Solved</string>
     <string name="maxRating">Max Rating \n <b>%d</b></string>
+    <string name="Newbie"> "#cccccc" </string>
 </resources>
