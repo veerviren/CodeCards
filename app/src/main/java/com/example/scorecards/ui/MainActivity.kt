@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                     when (response) {
                         is Resource.Error -> {
                             Toast.makeText(
-                                this@MainActivity ,
+                                this@MainActivity,
                                 response.message!!,
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
                             val user = response.data!!
                             binding.apply {
                                 userName.text = user.handle
-                                maxRank.text = user.maxRank
+                                maxRank.text = getString(R.string.maxRank, user.maxRank)
+                                currentRank.text = getString(R.string.currentRank, user.rank)
+                                currentRating.text = getString(R.string.currentRatingNum, user.rating)
+                                maxRating.text = getString(R.string.maxRating, user.maxRating)
                             }
                         }
                     }
