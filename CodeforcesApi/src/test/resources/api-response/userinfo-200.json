@@ -1,0 +1,23 @@
+{
+  "status": "OK",
+  "result": [
+    {
+      "lastName": "VARIYA",
+      "country": "India",
+      "lastOnlineTimeSeconds": 1678681926,
+      "city": "Surat",
+      "rating": 1168,
+      "friendOfCount": 5,
+      "titlePhoto": "https://userpic.codeforces.org/2731484/title/19410c8d73316f13.jpg",
+      "handle": "direction_",
+      "avatar": "https://userpic.codeforces.org/2731484/avatar/623b9dc16f5fc3c.jpg",
+      "firstName": "VIREN",
+      "contribution": -1,
+      "organization": "Lovely Professional University",
+      "rank": "newbie",
+      "maxRating": 1169,
+      "registrationTimeSeconds": 1660838487,
+      "maxRank": "newbie"
+    }
+  ]
+}
