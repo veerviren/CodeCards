@@ -63,12 +63,43 @@ class MainActivity : AppCompatActivity() {
                                     user.rating <= 4000 -> userName.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
                                     else -> userName.setTextColor(Color.parseColor("#000000")) // black
                                 }
+                                // logic for color change in currentRank
+
+                                when {
+                                    user.rating <= 1200 -> currentRank.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
+                                    user.rating <= 1400 -> currentRank.setTextColor(Color.parseColor("#77FF77")) // Pupil
+                                    user.rating <= 1600 -> currentRank.setTextColor(Color.parseColor("#77DDBB")) // Specialist
+                                    user.rating <= 1900 -> currentRank.setTextColor(Color.parseColor("#AAAAFF")) // Expert
+                                    user.rating <= 2100 -> currentRank.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
+                                    user.rating <= 2300 -> currentRank.setTextColor(Color.parseColor("#FFCC88")) // Master
+                                    user.rating <= 2400 -> currentRank.setTextColor(Color.parseColor("#FFBB55")) // International Master
+                                    user.rating <= 2600 -> currentRank.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
+                                    user.rating <= 3000 -> currentRank.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
+                                    user.rating <= 4000 -> currentRank.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
+                                    else -> userName.setTextColor(Color.parseColor("#000000")) // black
+                                }
+
+                                // logic for color change in MaxRank
+
+                                when {
+                                    user.maxRating <= 1200 -> maxRank.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
+                                    user.maxRating <= 1400 -> maxRank.setTextColor(Color.parseColor("#77FF77")) // Pupil
+                                    user.maxRating <= 1600 -> maxRank.setTextColor(Color.parseColor("#77DDBB")) // Specialist
+                                    user.maxRating <= 1900 -> maxRank.setTextColor(Color.parseColor("#AAAAFF")) // Expert
+                                    user.maxRating <= 2100 -> maxRank.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
+                                    user.maxRating <= 2300 -> maxRank.setTextColor(Color.parseColor("#FFCC88")) // Master
+                                    user.maxRating <= 2400 -> maxRank.setTextColor(Color.parseColor("#FFBB55")) // International Master
+                                    user.maxRating <= 2600 -> maxRank.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
+                                    user.maxRating <= 3000 -> maxRank.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
+                                    user.maxRating <= 4000 -> maxRank.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
+                                    else -> userName.setTextColor(Color.parseColor("#000000")) // black
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        viewModel.getUser("Geothermal")
+        viewModel.getUser("harry_122")
     }
 }
