@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                                     user.rating <= 2400 -> userName.setTextColor(Color.parseColor("#FFBB55")) // International Master
                                     user.rating <= 2600 -> userName.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
                                     user.rating <= 3000 -> userName.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
-                                    user.rating <= 4000 -> userName.setTextColor(Color.parseColor("#EDC240")) // Legendary Grandmaster
+                                    user.rating <= 4000 -> userName.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
                                     else -> userName.setTextColor(Color.parseColor("#000000")) // black
                                 }
                             }
@@ -69,6 +69,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        viewModel.getUser("Bakry")
+        viewModel.getUser("Geothermal")
     }
 }
