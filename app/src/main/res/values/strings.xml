@@ -3,7 +3,7 @@
     <string name="maxRank">Max Rank \n <b> %s</b></string>
     <string name="currentRank">Rank \n <b>%s</b></string>
     <string name="currentRatingNum">Rating \n <b>%d</b></string>
-    <string name="noOfProblems">%d \n Problems Solved</string>
+    <string name="noOfProblems">%d \n Accepted Problems</string>
     <string name="maxRating">Max Rating \n <b>%d</b></string>
     <string name="Newbie"> "#cccccc" </string>
 </resources>
