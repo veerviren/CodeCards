@@ -36,7 +36,7 @@ class CodeforcesRepository(
                                     avatar = info.avatar,
                                     titlePhoto = info.titlePhoto,
                                     handle = info.handle,
-                                    fullName = info.getFullName(),
+//                                    fullName = info.getFullName(),
                                     rank = info.rank,
                                     rating = info.rating,
                                     maxRating = info.maxRating,

@@ -1,33 +1,43 @@
 package com.example.scorecards.ui
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
+    private lateinit var handle: String;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val intent = intent
+        if (intent != null) {
+             var text = intent.getStringExtra("text")
+            handle = text.toString()
+        } else {
+            handle = "direction_"
+            Toast.makeText(this, "Null", Toast.LENGTH_SHORT).show()
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userState.collect { response ->
@@ -65,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                                     user.rating <= 4000 -> userName.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
                                     else -> userName.setTextColor(Color.parseColor("#000000")) // black
                                 }
+
                                 // logic for color change in currentRank
 
                                 when {
@@ -102,16 +113,19 @@ class MainActivity : AppCompatActivity() {
 
                                 Glide.with(this@MainActivity)
                                     .load(user.titlePhoto)
-                                    .centerCrop()
                                     .placeholder(R.drawable.img)
                                     .error(R.drawable.img_1)
                                     .into(imageView)
+
+
                             }
                         }
                     }
                 }
             }
         }
-        viewModel.getUser("dush1729")
+        viewModel.getUser(handle!!)
     }
+
+
 }
