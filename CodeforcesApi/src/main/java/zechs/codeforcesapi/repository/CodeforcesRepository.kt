@@ -34,6 +34,7 @@ class CodeforcesRepository(
                             return@runInTryCatch Resource.Success(
                                 User(
                                     avatar = info.avatar,
+                                    titlePhoto = info.titlePhoto,
                                     handle = info.handle,
                                     fullName = info.getFullName(),
                                     rank = info.rank,

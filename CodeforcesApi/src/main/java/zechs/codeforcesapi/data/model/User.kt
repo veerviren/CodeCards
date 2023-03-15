@@ -4,6 +4,7 @@ data class User(
     val avatar: String,
     val handle: String,
     val fullName: String,
+    val titlePhoto: String,
     val rank: String,
     val rating: Int,
     val maxRank: String,
