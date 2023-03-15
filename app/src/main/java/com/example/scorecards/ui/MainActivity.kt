@@ -4,12 +4,14 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
@@ -43,8 +45,8 @@ class MainActivity : AppCompatActivity() {
                             val user = response.data!!
                             binding.apply {
                                 userName.text = user.handle
-                                maxRank.text = getString(R.string.maxRank, user.maxRank)
-                                currentRank.text = getString(R.string.currentRank, user.rank)
+                                maxRankName.text = getString(R.string.maxRank, user.maxRank)
+                                currentRankName.text = getString(R.string.currentRank, user.rank)
                                 currentRating.text = getString(R.string.currentRatingNum, user.rating)
                                 maxRating.text = getString(R.string.maxRating, user.maxRating)
                                 queSolved.text = getString(R.string.noOfProblems, user.totalQuestionsSolved)
@@ -66,40 +68,50 @@ class MainActivity : AppCompatActivity() {
                                 // logic for color change in currentRank
 
                                 when {
-                                    user.rating <= 1200 -> currentRank.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
-                                    user.rating <= 1400 -> currentRank.setTextColor(Color.parseColor("#77FF77")) // Pupil
-                                    user.rating <= 1600 -> currentRank.setTextColor(Color.parseColor("#77DDBB")) // Specialist
-                                    user.rating <= 1900 -> currentRank.setTextColor(Color.parseColor("#AAAAFF")) // Expert
-                                    user.rating <= 2100 -> currentRank.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
-                                    user.rating <= 2300 -> currentRank.setTextColor(Color.parseColor("#FFCC88")) // Master
-                                    user.rating <= 2400 -> currentRank.setTextColor(Color.parseColor("#FFBB55")) // International Master
-                                    user.rating <= 2600 -> currentRank.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
-                                    user.rating <= 3000 -> currentRank.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
-                                    user.rating <= 4000 -> currentRank.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
+                                    user.rating <= 1200 -> currentRankName.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
+                                    user.rating <= 1400 -> currentRankName.setTextColor(Color.parseColor("#77FF77")) // Pupil
+                                    user.rating <= 1600 -> currentRankName.setTextColor(Color.parseColor("#77DDBB")) // Specialist
+                                    user.rating <= 1900 -> currentRankName.setTextColor(Color.parseColor("#AAAAFF")) // Expert
+                                    user.rating <= 2100 -> currentRankName.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
+                                    user.rating <= 2300 -> currentRankName.setTextColor(Color.parseColor("#FFCC88")) // Master
+                                    user.rating <= 2400 -> currentRankName.setTextColor(Color.parseColor("#FFBB55")) // International Master
+                                    user.rating <= 2600 -> currentRankName.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
+                                    user.rating <= 3000 -> currentRankName.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
+                                    user.rating <= 4000 -> currentRankName.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
                                     else -> userName.setTextColor(Color.parseColor("#000000")) // black
                                 }
 
                                 // logic for color change in MaxRank
 
                                 when {
-                                    user.maxRating <= 1200 -> maxRank.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
-                                    user.maxRating <= 1400 -> maxRank.setTextColor(Color.parseColor("#77FF77")) // Pupil
-                                    user.maxRating <= 1600 -> maxRank.setTextColor(Color.parseColor("#77DDBB")) // Specialist
-                                    user.maxRating <= 1900 -> maxRank.setTextColor(Color.parseColor("#AAAAFF")) // Expert
-                                    user.maxRating <= 2100 -> maxRank.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
-                                    user.maxRating <= 2300 -> maxRank.setTextColor(Color.parseColor("#FFCC88")) // Master
-                                    user.maxRating <= 2400 -> maxRank.setTextColor(Color.parseColor("#FFBB55")) // International Master
-                                    user.maxRating <= 2600 -> maxRank.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
-                                    user.maxRating <= 3000 -> maxRank.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
-                                    user.maxRating <= 4000 -> maxRank.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
+                                    user.maxRating <= 1200 -> maxRankName.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
+                                    user.maxRating <= 1400 -> maxRankName.setTextColor(Color.parseColor("#77FF77")) // Pupil
+                                    user.maxRating <= 1600 -> maxRankName.setTextColor(Color.parseColor("#77DDBB")) // Specialist
+                                    user.maxRating <= 1900 -> maxRankName.setTextColor(Color.parseColor("#AAAAFF")) // Expert
+                                    user.maxRating <= 2100 -> maxRankName.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
+                                    user.maxRating <= 2300 -> maxRankName.setTextColor(Color.parseColor("#FFCC88")) // Master
+                                    user.maxRating <= 2400 -> maxRankName.setTextColor(Color.parseColor("#FFBB55")) // International Master
+                                    user.maxRating <= 2600 -> maxRankName.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
+                                    user.maxRating <= 3000 -> maxRankName.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
+                                    user.maxRating <= 4000 -> maxRankName.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
                                     else -> userName.setTextColor(Color.parseColor("#000000")) // black
                                 }
+
+                                // Image logic
+                                val imageView: ImageView = findViewById(R.id.userImage)
+
+                                Glide.with(this@MainActivity)
+                                    .load(user.titlePhoto)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.img)
+                                    .error(R.drawable.img_1)
+                                    .into(imageView)
                             }
                         }
                     }
                 }
             }
         }
-        viewModel.getUser("harry_122")
+        viewModel.getUser("dush1729")
     }
 }

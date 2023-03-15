@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ScoreCards</string>
-    <string name="maxRank">Max Rank \n <b> %s</b></string>
-    <string name="currentRank">Rank \n <b>%s</b></string>
+    <string name="maxRank"><b> %s</b></string>
+    <string name="currentRank"><b>%s</b></string>
     <string name="currentRatingNum">Rating \n <b>%d</b></string>
     <string name="noOfProblems">%d \n Accepted Problems</string>
     <string name="maxRating">Max Rating \n <b>%d</b></string>

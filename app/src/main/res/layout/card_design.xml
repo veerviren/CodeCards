@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
-                android:src="@drawable/img"
+                android:src="@drawable/my_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,18 +46,34 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+<!--            <TextView-->
+<!--                android:id="@+id/userName"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textSize="24sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                tools:text="UserName" />-->
+
             <TextView
                 android:id="@+id/userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="28sp"
                 android:textStyle="bold"
+                android:textAlignment="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="UserName" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,7 +95,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/currentRank"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Rank"
                 android:textAlignment="center"
                 android:textColor="#FFD700"
                 android:textSize="18sp"
@@ -87,7 +105,35 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/currentRankName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/currentRank"
+                android:textAlignment="center"
+                android:textColor="#FFD700"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/currentRank"
+                app:layout_constraintTop_toBottomOf="@id/currentRank" />
+
+            <TextView
                 android:id="@+id/maxRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="MaxRank"
+                android:textAlignment="center"
+                android:textColor="#FFD700"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/maxRankName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -96,8 +142,9 @@
                 android:textAlignment="center"
                 android:textColor="#FFD700"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@id/maxRank"
+                app:layout_constraintTop_toBottomOf="@id/maxRank" />
+
 
             <TextView
                 android:id="@+id/queSolved"
@@ -120,6 +167,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="@string/currentRatingNum"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -135,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+
                 android:text="@string/maxRating"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
