@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/md_theme_dark_background"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
@@ -71,9 +72,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     tools:text="UserName" />
 
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,10 +103,10 @@
 
                 <TextView
                     android:id="@+id/currentRankName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/currentRank"
                     android:textAlignment="center"
                     android:textColor="#FFD700"
@@ -116,12 +114,12 @@
                     app:layout_constraintStart_toStartOf="@id/currentRank"
                     app:layout_constraintTop_toBottomOf="@id/currentRank" />
 
+
                 <TextView
                     android:id="@+id/maxRank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="MaxRank"
@@ -131,66 +129,67 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/maxRankName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/maxRank"
-                    android:textAlignment="center"
-                    android:textColor="#FFD700"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="@id/maxRank"
-                    app:layout_constraintTop_toBottomOf="@id/maxRank" />
-
 
                 <TextView
                     android:id="@+id/queSolved"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rectangle"
                     android:text="@string/noOfProblems"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/maxRating"
+                    app:layout_constraintHorizontal_bias="0.578"
                     app:layout_constraintStart_toEndOf="@id/currentRating"
-                    app:layout_constraintTop_toBottomOf="@id/currentRank" />
+                    app:layout_constraintTop_toBottomOf="@id/currentRank"
+                    app:layout_constraintVertical_bias="0.761" />
 
                 <TextView
                     android:id="@+id/currentRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:background="@drawable/rectangle"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="@string/currentRatingNum"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/currentRank" />
-
+                    app:layout_constraintTop_toBottomOf="@id/currentRank"
+                    app:layout_constraintVertical_bias="0.761" />
 
                 <TextView
                     android:id="@+id/maxRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-
+                    android:background="@drawable/rectangle"
                     android:text="@string/maxRating"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/maxRank" />
+                    app:layout_constraintTop_toBottomOf="@id/maxRank"
+                    app:layout_constraintVertical_bias="0.761" />
+
+                <TextView
+                    android:id="@+id/maxRankName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-15dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/maxRank"
+                    android:textAlignment="center"
+                    android:textColor="#FFD700"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/maxRank"
+                    app:layout_constraintTop_toBottomOf="@id/maxRank"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
