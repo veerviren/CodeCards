@@ -1,6 +1,7 @@
 package com.example.scorecards.ui
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -11,7 +12,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
@@ -32,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val intent = intent
         if (intent != null) {
-             var text = intent.getStringExtra("text")
+            var text = intent.getStringExtra("text")
             handle = text.toString()
         } else {
             handle = "direction_"
@@ -115,8 +119,28 @@ class MainActivity : AppCompatActivity() {
                                     .load(user.titlePhoto)
                                     .placeholder(R.drawable.img)
                                     .error(R.drawable.img_1)
-                                    .into(imageView)
+                                    .addListener(object : RequestListener<Drawable> {
+                                        override fun onLoadFailed(
+                                            e: GlideException?,
+                                            model: Any?,
+                                            target: Target<Drawable>?,
+                                            isFirstResource: Boolean
+                                        ) = false
 
+                                        override fun onResourceReady(
+                                            resource: Drawable?,
+                                            model: Any?,
+                                            target: Target<Drawable>?,
+                                            dataSource: DataSource?,
+                                            isFirstResource: Boolean
+                                        ): Boolean {
+                                            resource?.let {
+                                                viewModel.setImageDrawable(resource)
+                                            }
+                                            return false
+                                        }
+                                    })
+                                    .into(imageView)
 
                             }
                         }
@@ -124,7 +148,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        viewModel.getUser(handle!!)
+        viewModel.getUser(handle)
+        gradientObserver()
+    }
+
+    private fun gradientObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.gradient.collect {
+                    binding.bottomGradient.background = it
+                }
+            }
+        }
     }
 
 
