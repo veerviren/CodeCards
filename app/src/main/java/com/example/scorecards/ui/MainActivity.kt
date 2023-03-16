@@ -1,5 +1,6 @@
 package com.example.scorecards.ui
 
+import android.app.ProgressDialog
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -35,6 +36,13 @@ class MainActivity : AppCompatActivity() {
         binding = CardDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //loding animation
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+        progressDialog.setContentView(R.layout.loading_animation)
+
+
         val intent = intent
         if (intent != null) {
             var text = intent.getStringExtra("text")
@@ -54,9 +62,13 @@ class MainActivity : AppCompatActivity() {
                                 response.message!!,
                                 Toast.LENGTH_SHORT
                             ).show()
+                            progressDialog.dismiss()
                         }
-                        is Resource.Loading -> {}
+                        is Resource.Loading -> {
+                            progressDialog.show()
+                        }
                         is Resource.Success -> {
+                            progressDialog.dismiss()
                             val user = response.data!!
                             binding.apply {
                                 userName.text = user.handle

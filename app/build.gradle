@@ -72,6 +72,8 @@ dependencies {
     //Palette API
     implementation 'androidx.palette:palette:1.0.0'
 
+    // Loading indicator
+
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
