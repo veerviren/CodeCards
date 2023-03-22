@@ -72,7 +72,8 @@ dependencies {
     //Palette API
     implementation 'androidx.palette:palette:1.0.0'
 
-    // Loading indicator
+    // Shimmer Effect
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"

@@ -1,6 +1,5 @@
 package com.example.scorecards.ui
 
-import android.app.ProgressDialog
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -10,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginEnd
+import androidx.core.view.marginTop
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.Target
 import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,17 +33,15 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
     private lateinit var handle: String;
+    private var mShowShimmer = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //loding animation
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setCancelable(false)
-        progressDialog.show()
-        progressDialog.setContentView(R.layout.loading_animation)
-
+        // start the shimmer effect
+        val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
+        shimmerFrameLayout.showShimmer(true)
 
         val intent = intent
         if (intent != null) {
@@ -62,25 +62,37 @@ class MainActivity : AppCompatActivity() {
                                 response.message!!,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            progressDialog.dismiss()
+                            shimmerFrameLayout.hideShimmer()
                         }
                         is Resource.Loading -> {
-                            progressDialog.show()
+                            shimmerFrameLayout.showShimmer(true)
+                            binding.apply {
+                                currentRating.text = getString(R.string.currentRatingNum, 0)
+                                maxRating.text = getString(R.string.maxRating, 0)
+                                queSolved.text = getString(R.string.noOfProblems, 0)
+                            }
                         }
                         is Resource.Success -> {
-                            progressDialog.dismiss()
+                            // stop the shimmer effect
+                            shimmerFrameLayout.hideShimmer()
+
                             val user = response.data!!
                             binding.apply {
                                 userName.text = user.handle
                                 maxRankName.text = getString(R.string.maxRank, user.maxRank)
                                 currentRankName.text = getString(R.string.currentRank, user.rank)
-                                currentRating.text = getString(R.string.currentRatingNum, user.rating)
+                                currentRating.text =
+                                    getString(R.string.currentRatingNum, user.rating)
                                 maxRating.text = getString(R.string.maxRating, user.maxRating)
-                                queSolved.text = getString(R.string.noOfProblems, user.totalQuestionsSolved)
+                                queSolved.text =
+                                    getString(R.string.noOfProblems, user.totalQuestionsSolved)
+
 
                                 // break 2 words Name
-                                maxRankName.text = getString(R.string.maxRank, user.maxRank).replace(" ", "\n")
-                                currentRankName.text = getString(R.string.currentRank, user.rank).replace(" ", "\n")
+                                maxRankName.text =
+                                    getString(R.string.maxRank, user.maxRank).replace(" ", "\n")
+                                currentRankName.text =
+                                    getString(R.string.currentRank, user.rank).replace(" ", "\n")
                                 maxRankName.text.toString().trim()
                                 currentRankName.text.toString().trim()
                                 print(maxRankName)
@@ -130,6 +142,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         viewModel.getUser(handle)
         gradientObserver()
     }
@@ -150,6 +163,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //    fun showShimmer(startShimmer: Boolean) {
+//        mShowShimmer = true
+//        if (startShimmer) {
+//            startShimmer()
+//        }
+//        invalidate()
+//    }
+//    fun hideShimmer() {
+//        stopShimmer()
+//        mShowShimmer = false
+//        invalidate()
+//    }
+//
+//    fun stopShimmer() {
+//        mStoppedShimmerBecauseVisibility = false
+//        mShimmerDrawable.stopShimmer()
+//    }
     private fun gradientObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -159,6 +189,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }
