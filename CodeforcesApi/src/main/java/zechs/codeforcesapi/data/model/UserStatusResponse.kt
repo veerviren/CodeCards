@@ -8,7 +8,7 @@ data class UserStatusResponse(
 
     fun getAcceptedProblems(): Int? {
         return result
-            ?.filter { it.verdict == "OK" }
+            ?.filter { it.verdict != null && it.verdict=="OK"}
             ?.size
     }
 
@@ -26,7 +26,7 @@ data class StatusResult(
 //    val relativeTimeSeconds: Int,
 //    val testset: String,
 //    val timeConsumedMillis: Int,
-    val verdict: String
+    val verdict: String?
 )
 
 data class Problem(
