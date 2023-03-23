@@ -3,13 +3,16 @@ package com.example.scorecards.ui
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.text.toUpperCase
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,6 +27,7 @@ import com.example.scorecards.utils.Resource
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -106,16 +110,28 @@ class MainActivity : AppCompatActivity() {
                                 // logic for color change in MaxRank
                                 setTextViewColor(maxRankName, user.maxRating)
 
-                                // color formatting for legendary grandmaster
-//                                String firstMaxrankchar;
-//                                if (user.rating >= 3000) {
-//                                    firstMaxrankchar= user.maxRank.substring(0, 1)
-//                                    firstMaxrankchar =
-//                                        "<font color='#000000'>$firstMaxrankchar</font>"
-//                                }
-//                                    user.maxRank = firstMaxrankchar + user.maxRank.substring(1)
-//
-//                                }
+                                // color and LetterCase formatting for legendary grandmaster
+                                if (user.rating >= 3000) {
+
+                                    // fro user handle
+                                    val spannableString = SpannableString(user.handle)
+                                    val colorSpan = ForegroundColorSpan(Color.parseColor("#000000"))
+                                    spannableString.setSpan(
+                                        colorSpan,
+                                        0,
+                                        1,
+                                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                                    )
+                                    userName.text = spannableString
+
+                                    // for current rank
+                                    makeFirstLetterUpperCase(currentRankName)
+                                    changeLegendaryGrandmasterColor(currentRankName)
+
+                                    // for max rank
+                                    makeFirstLetterUpperCase(maxRankName)
+                                    changeLegendaryGrandmasterColor(maxRankName)
+                                }
 
                                 // Image logic
                                 val imageView: ImageView = findViewById(R.id.userImage)
@@ -159,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setTextViewColor(view: TextView, userRating: Int) {
         when {
-            userRating <= 1200 -> view.setTextColor(Color.parseColor("#CCCCCC")) // Newbie
+            userRating <= 1200 -> view.setTextColor(Color.parseColor("#988f81")) // Newbie
             userRating <= 1400 -> view.setTextColor(Color.parseColor("#77FF77")) // Pupil
             userRating <= 1600 -> view.setTextColor(Color.parseColor("#77DDBB")) // Specialist
             userRating <= 1900 -> view.setTextColor(Color.parseColor("#AAAAFF")) // Expert
@@ -173,23 +189,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //    fun showShimmer(startShimmer: Boolean) {
-//        mShowShimmer = true
-//        if (startShimmer) {
-//            startShimmer()
-//        }
-//        invalidate()
-//    }
-//    fun hideShimmer() {
-//        stopShimmer()
-//        mShowShimmer = false
-//        invalidate()
-//    }
-//
-//    fun stopShimmer() {
-//        mStoppedShimmerBecauseVisibility = false
-//        mShimmerDrawable.stopShimmer()
-//    }
+    private fun makeFirstLetterUpperCase(view: TextView) {
+        var fistChar: String = view.text.toString().substring(0, 1).uppercase()
+        var restChar: String = view.text.toString().substring(1)
+        view.text = fistChar + restChar
+    }
+    private fun changeLegendaryGrandmasterColor(view: TextView) {
+        val spannableString = SpannableString(view.text)
+        val colorSpan = ForegroundColorSpan(Color.parseColor("#000000"))
+        spannableString.setSpan(
+            colorSpan,
+            0,
+            1,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        view.text = spannableString
+    }
     private fun gradientObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
