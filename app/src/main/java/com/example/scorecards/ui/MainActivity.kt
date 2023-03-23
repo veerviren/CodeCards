@@ -3,14 +3,13 @@ package com.example.scorecards.ui
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginEnd
-import androidx.core.view.marginTop
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -107,13 +106,24 @@ class MainActivity : AppCompatActivity() {
                                 // logic for color change in MaxRank
                                 setTextViewColor(maxRankName, user.maxRating)
 
+                                // color formatting for legendary grandmaster
+//                                String firstMaxrankchar;
+//                                if (user.rating >= 3000) {
+//                                    firstMaxrankchar= user.maxRank.substring(0, 1)
+//                                    firstMaxrankchar =
+//                                        "<font color='#000000'>$firstMaxrankchar</font>"
+//                                }
+//                                    user.maxRank = firstMaxrankchar + user.maxRank.substring(1)
+//
+//                                }
+
                                 // Image logic
                                 val imageView: ImageView = findViewById(R.id.userImage)
 
                                 Glide.with(this@MainActivity)
                                     .load(user.titlePhoto)
-                                    .placeholder(R.drawable.img)
-                                    .error(R.drawable.img_1)
+                                    .placeholder(R.drawable.loading_effect)
+                                    .error(R.drawable.error)
                                     .addListener(object : RequestListener<Drawable> {
                                         override fun onLoadFailed(
                                             e: GlideException?,
