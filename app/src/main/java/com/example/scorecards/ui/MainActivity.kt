@@ -101,6 +101,10 @@ class MainActivity : AppCompatActivity() {
                                 print(maxRankName)
                                 print(currentRankName)
 
+                                // Capitalising first letter of Ranking name
+                                makeFirstLetterUpperCase(currentRankName)
+                                makeFirstLetterUpperCase(maxRankName)
+
                                 // logic for color change in handle
                                 setTextViewColor(userName, user.rating)
 
@@ -110,27 +114,11 @@ class MainActivity : AppCompatActivity() {
                                 // logic for color change in MaxRank
                                 setTextViewColor(maxRankName, user.maxRating)
 
-                                // color and LetterCase formatting for legendary grandmaster
+                                // color formatting for legendary grandmaster
                                 if (user.rating >= 3000) {
 
                                     // fro user handle
-                                    val spannableString = SpannableString(user.handle)
-                                    val colorSpan = ForegroundColorSpan(Color.parseColor("#000000"))
-                                    spannableString.setSpan(
-                                        colorSpan,
-                                        0,
-                                        1,
-                                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                                    )
-                                    userName.text = spannableString
-
-                                    // for current rank
-                                    makeFirstLetterUpperCase(currentRankName)
-                                    changeLegendaryGrandmasterColor(currentRankName)
-
-                                    // for max rank
-                                    makeFirstLetterUpperCase(maxRankName)
-                                    changeLegendaryGrandmasterColor(maxRankName)
+                                    changeLegendaryGrandmasterColor(userName)
                                 }
 
                                 // Image logic
