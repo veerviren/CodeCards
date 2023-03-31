@@ -7,12 +7,22 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.GestureDetector
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.compose.ui.text.toUpperCase
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -25,8 +35,11 @@ import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.lang.Math.abs
 import java.util.*
 
 
@@ -37,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: CardDesignBinding
     private lateinit var handle: String;
     private var mShowShimmer = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
@@ -45,6 +59,19 @@ class MainActivity : AppCompatActivity() {
         // start the shimmer effect
         val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
         shimmerFrameLayout.showShimmer(true)
+
+        // bottom sheet dialog
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetView = LayoutInflater.from(applicationContext)
+            .inflate(
+                R.layout.activity_detail_card,
+                findViewById(R.id.detailCardLayout)
+            )
+        val button = findViewById<Button>(R.id.show)
+        button.setOnClickListener {
+            bottomSheetDialog.setContentView(bottomSheetView)
+            bottomSheetDialog.show()
+        }
 
         val intent = intent
         if (intent != null) {
@@ -160,6 +187,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.getUser(handle)
         gradientObserver()
     }
+
 
     private fun setTextViewColor(view: TextView, userRating: Int) {
         when {
