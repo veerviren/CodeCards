@@ -82,6 +82,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         tools:text="UserName" />
 
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,20 +116,17 @@
 
                     <TextView
                         android:id="@+id/currentRankName"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:padding="8dp"
                         android:background="@drawable/username_rounded_background"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="5dp"
                         android:text="userRank"
                         android:textAlignment="center"
                         android:textColor="#FFD700"
                         android:textFontWeight="700"
                         android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="@id/currentRank"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/currentRank" />
 
 
@@ -145,18 +143,6 @@
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
-                    <Button
-                        android:id="@+id/show"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="More \n Info"
-                        app:layout_constraintBottom_toTopOf="@+id/queSolved"
-                        app:layout_constraintEnd_toStartOf="@+id/maxRankName"
-                        app:layout_constraintStart_toEndOf="@+id/currentRankName"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </Button>
 
 
                     <TextView
@@ -209,20 +195,26 @@
                         android:id="@+id/maxRankName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
                         android:background="@drawable/username_rounded_background"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="5dp"
                         android:text="userMaxRank"
+                        android:layout_marginTop="8dp"
+                        android:padding="8dp"
                         android:textAlignment="center"
                         android:textColor="#FFD700"
                         android:textFontWeight="700"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="@id/maxRank"
-                        app:layout_constraintTop_toBottomOf="@id/maxRank"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintTop_toBottomOf="@id/maxRank"/>
+
+                    <Button
+                        android:id="@+id/show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="More \n Info"
+                        app:layout_constraintBottom_toTopOf="@+id/queSolved"
+                        app:layout_constraintEnd_toStartOf="@+id/maxRankName"
+                        app:layout_constraintStart_toEndOf="@+id/currentRankName"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
