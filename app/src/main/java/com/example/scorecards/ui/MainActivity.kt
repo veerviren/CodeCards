@@ -7,25 +7,22 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.GestureDetector
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.compose.ui.text.toUpperCase
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -35,12 +32,9 @@ import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -49,7 +43,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
     private lateinit var handle: String;
-    private var mShowShimmer = true
+    //recycleview
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +67,45 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
         }
+        //recycleview
+        recyclerView =bottomSheetView.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val items = mutableListOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6")
+
+        recyclerView.adapter = MyAdapter(items)
+        // logic to add friend handle
+        val addButton = bottomSheetView.findViewById<Button>(R.id.add_friend_handle)
+
+
+        addButton.setOnClickListener {
+            println("btn clicked")
+            Toast.makeText(
+                this,
+                "Button Clicked",
+                Toast.LENGTH_SHORT
+            ).show()
+            val editText = EditText(this)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Add friend handle")
+            builder.setView(editText)
+            builder.setPositiveButton("OK") { _, _ ->
+                val handle = editText.text.toString()
+                if(handle.isNotEmpty()) {
+                    items.add(handle)
+                }
+                Toast.makeText(
+                    this,
+                    handle + " " +items.size.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+                recyclerView.adapter = MyAdapter(items)
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
+        }
+
+
 
         val intent = intent
         if (intent != null) {
@@ -230,4 +264,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    //RecycleView
+    private inner class MyAdapter(private val items: List<String>) : RecyclerView.Adapter<MyViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_item, parent, false)
+            return MyViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            val item = items[position]
+            holder.bind(item)
+        }
+
+        override fun getItemCount(): Int = items.size
+    }
+
+    private inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val friend_handle_name: TextView = itemView.findViewById(R.id.friend_handle)
+
+
+        private val friend_rating: TextView = itemView.findViewById(R.id.friend_rating)
+        private val friend_avator: ImageView = itemView.findViewById(R.id.friend_avator)
+
+        fun bind(item: String) {
+            friend_handle_name.text = item
+        }
+    }
+
 }

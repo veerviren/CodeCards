@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:background="@color/cardview_dark_background"
+    android:layout_height="70dp">
+    <ImageView
+        android:id="@+id/friend_avator"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/my_pic" />
+
+    <TextView
+        android:id="@+id/friend_handle"
+        android:textAlignment="center"
+        android:layout_width="0dp"
+        android:textColor="@color/cardview_light_background"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="30sp"
+        android:text="Friend1"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/friend_rating"
+        android:layout_width="0dp"
+        android:textColor="@color/cardview_light_background"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:textSize="30sp"
+        android:text="1000"
+        >
+
+    </TextView>
+</LinearLayout>
