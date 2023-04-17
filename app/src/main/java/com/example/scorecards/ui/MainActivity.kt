@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
     private lateinit var handle: String;
+    val items = mutableListOf<String>();
+
     //recycleview
     private lateinit var recyclerView: RecyclerView
 
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         // bottom sheet dialog
         val bottomSheetDialog = BottomSheetDialog(this)
-        val bottomSheetView = LayoutInflater.from(applicationContext)
+        val bottomSheetView = LayoutInflater.from(this)
             .inflate(
                 R.layout.activity_detail_card,
                 findViewById(R.id.detailCardLayout)
@@ -68,15 +71,14 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.show()
         }
         //recycleview
-        recyclerView =bottomSheetView.findViewById(R.id.recycler_view)
+        recyclerView = bottomSheetView.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val items = mutableListOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6")
 
         recyclerView.adapter = MyAdapter(items)
+
         // logic to add friend handle
         val addButton = bottomSheetView.findViewById<Button>(R.id.add_friend_handle)
-
 
         addButton.setOnClickListener {
             println("btn clicked")
@@ -104,8 +106,6 @@ class MainActivity : AppCompatActivity() {
             builder.setNegativeButton("Cancel", null)
             builder.show()
         }
-
-
 
         val intent = intent
         if (intent != null) {
@@ -150,7 +150,6 @@ class MainActivity : AppCompatActivity() {
                                 maxRating.text = getString(R.string.maxRating, user.maxRating)
                                 queSolved.text =
                                     getString(R.string.noOfProblems, user.totalQuestionsSolved)
-
 
                                 // break 2 words Name
                                 maxRankName.text =
@@ -265,7 +264,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     //RecycleView
     private inner class MyAdapter(private val items: List<String>) : RecyclerView.Adapter<MyViewHolder>() {
 
@@ -285,13 +283,24 @@ class MainActivity : AppCompatActivity() {
     private inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val friend_handle_name: TextView = itemView.findViewById(R.id.friend_handle)
+        private val deleteButton: TextView = itemView.findViewById(R.id.delete_friend)
 
-
-        private val friend_rating: TextView = itemView.findViewById(R.id.friend_rating)
-        private val friend_avator: ImageView = itemView.findViewById(R.id.friend_avator)
-
+        // add logic for delete friend handle
         fun bind(item: String) {
             friend_handle_name.text = item
+
+            //delete friend handle
+            deleteButton.setOnClickListener {
+                Toast.makeText(
+                    deleteButton.context,
+                    "delete clicked",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                items.removeAt(items.indexOf(item))
+                recyclerView.adapter = MyAdapter(items)
+            }
+
         }
     }
 
