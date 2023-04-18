@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -49,6 +48,10 @@ class MainActivity : AppCompatActivity() {
     //recycleview
     private lateinit var recyclerView: RecyclerView
 
+    private val friendsAdapter by lazy {
+        FriendListAdapter(onDelete = { viewModel.removeFriend(it)})
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
@@ -72,10 +75,19 @@ class MainActivity : AppCompatActivity() {
         }
         //recycleview
         recyclerView = bottomSheetView.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
 
-        recyclerView.adapter = MyAdapter(items)
+        recyclerView.adapter = friendsAdapter
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.friends.collect {
+                    println("HEREEEEEE  =  ${it}")
+                    friendsAdapter.submitList(it)
+                }
+            }
+           }
 
         // logic to add friend handle
         val addButton = bottomSheetView.findViewById<Button>(R.id.add_friend_handle)
@@ -93,15 +105,15 @@ class MainActivity : AppCompatActivity() {
             builder.setView(editText)
             builder.setPositiveButton("OK") { _, _ ->
                 val handle = editText.text.toString()
-                if(handle.isNotEmpty()) {
+                if (handle.isNotEmpty()) {
                     items.add(handle)
                 }
                 Toast.makeText(
                     this,
-                    handle + " " +items.size.toString(),
+                    handle + " " + items.size.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-                recyclerView.adapter = MyAdapter(items)
+                viewModel.addFriend(handle)
             }
             builder.setNegativeButton("Cancel", null)
             builder.show()
@@ -128,6 +140,7 @@ class MainActivity : AppCompatActivity() {
                             ).show()
                             shimmerFrameLayout.hideShimmer()
                         }
+
                         is Resource.Loading -> {
                             shimmerFrameLayout.showShimmer(true)
                             binding.apply {
@@ -136,6 +149,7 @@ class MainActivity : AppCompatActivity() {
                                 queSolved.text = getString(R.string.noOfProblems, 0)
                             }
                         }
+
                         is Resource.Success -> {
                             // stop the shimmer effect
                             shimmerFrameLayout.hideShimmer()
@@ -243,6 +257,7 @@ class MainActivity : AppCompatActivity() {
         var restChar: String = view.text.toString().substring(1)
         view.text = fistChar + restChar
     }
+
     private fun changeLegendaryGrandmasterColor(view: TextView) {
         val spannableString = SpannableString(view.text)
         val colorSpan = ForegroundColorSpan(Color.parseColor("#000000"))
@@ -254,6 +269,7 @@ class MainActivity : AppCompatActivity() {
         )
         view.text = spannableString
     }
+
     private fun gradientObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -261,46 +277,6 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomGradient.background = it
                 }
             }
-        }
-    }
-
-    //RecycleView
-    private inner class MyAdapter(private val items: List<String>) : RecyclerView.Adapter<MyViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_item, parent, false)
-            return MyViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val item = items[position]
-            holder.bind(item)
-        }
-
-        override fun getItemCount(): Int = items.size
-    }
-
-    private inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private val friend_handle_name: TextView = itemView.findViewById(R.id.friend_handle)
-        private val deleteButton: TextView = itemView.findViewById(R.id.delete_friend)
-
-        // add logic for delete friend handle
-        fun bind(item: String) {
-            friend_handle_name.text = item
-
-            //delete friend handle
-            deleteButton.setOnClickListener {
-                Toast.makeText(
-                    deleteButton.context,
-                    "delete clicked",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                items.removeAt(items.indexOf(item))
-                recyclerView.adapter = MyAdapter(items)
-            }
-
         }
     }
 

@@ -25,7 +25,7 @@ class InputeCard : AppCompatActivity() {
             .into(imageView)
 
         val button: Button = findViewById(R.id.submit_button)
-        button.setOnClickListener{
+        button.setOnClickListener {
             val editText = findViewById<EditText>(R.id.user_input)
             val text = editText.text.toString()
 

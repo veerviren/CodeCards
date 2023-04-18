@@ -26,6 +26,12 @@ class MainViewModel @Inject constructor(
     private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState: StateFlow<Resource<User>> = _userState
 
+
+    private val friendList = mutableListOf<Friend>()
+
+    private val _friends = MutableStateFlow<List<Friend>>(friendList.toList())
+    val friends: StateFlow<List<Friend>> = _friends
+
     private val _gradient = MutableStateFlow(GradientDrawable())
     val gradient: StateFlow<GradientDrawable> = _gradient
 
@@ -64,5 +70,30 @@ class MainViewModel @Inject constructor(
             )
             _gradient.value = gradientDrawable
         }
+    }
+
+    fun addFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
+        if (friendList.any { it.friendHandle == handle }) return@launch
+        val response = repository.getUser(handle)
+        println("HEREEEEEE = ${response}")
+        if (response  is zechs.codeforcesapi.utils.Resource.Success) {
+            println("HEREEEEEE")
+                val user = response.data
+                val friend = Friend(
+                    friendHandle = user.handle,
+                    friendRating = user.rating.toString(),
+                    friendAvatar = user.avatar
+                )
+                println("HEREEEEEE = ${friend}")
+                friendList.add(friend)
+                _friends.value = friendList.toList()
+            }
+
+
+    }
+
+    fun removeFriend(friend: Friend) {
+        friendList.remove(friend)
+        _friends.value = friendList.toList()
     }
 }
