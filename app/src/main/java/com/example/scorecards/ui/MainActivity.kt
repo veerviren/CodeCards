@@ -1,6 +1,7 @@
 package com.example.scorecards.ui
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
@@ -33,6 +34,7 @@ import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Resource
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
     private lateinit var handle: String;
-    val items = mutableListOf<String>();
 
     //recycleview
     private lateinit var recyclerView: RecyclerView
@@ -100,17 +101,16 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
             val editText = EditText(this)
-            val builder = AlertDialog.Builder(this)
+            editText.setTextColor(Color.BLACK)
+            val builder = MaterialAlertDialogBuilder(this)
             builder.setTitle("Add friend handle")
             builder.setView(editText)
             builder.setPositiveButton("OK") { _, _ ->
                 val handle = editText.text.toString()
-                if (handle.isNotEmpty()) {
-                    items.add(handle)
-                }
+                handle.trim()
                 Toast.makeText(
                     this,
-                    handle + " " + items.size.toString(),
+                    handle + " added",
                     Toast.LENGTH_SHORT
                 ).show()
                 viewModel.addFriend(handle)
@@ -231,7 +231,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.getUser(handle)
+        viewModel.getUser(handle.trim())
         gradientObserver()
     }
 

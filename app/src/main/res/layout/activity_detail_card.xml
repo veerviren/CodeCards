@@ -43,11 +43,6 @@
                     app:cardCornerRadius="16dp"
                     app:layout_constraintStart_toStartOf="parent">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/my_pic" />
-
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -76,16 +71,20 @@
                     android:layout_weight="1"
                     android:text="Friend List"
                     android:textSize="24sp" />
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.IconButton"
                     android:id="@+id/add_friend_handle"
+                    app:icon="@drawable/baseline_add_circle_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/md_theme_light_onPrimary"
-                    android:drawableLeft="@drawable/baseline_add_circle_24"
-                    android:text="add"
+                    app:iconTint="@color/cardview_dark_background"
+                    android:backgroundTint="@color/md_theme_light_onPrimary"
                     android:padding="8dp"
+                    android:text="Add Friend"
+                    android:textColor="@color/dark"
                     android:minHeight="0dp"
                     android:minWidth="0dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -93,22 +92,20 @@
                 android:layout_height="wrap_content"
                 >
                 <TextView
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:text="avatar"/>
                 <TextView
-                    android:layout_weight="4"
-                    android:layout_marginStart="45dp"
                     android:layout_width="wrap_content"
+                    android:layout_marginStart="45dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="handel"/>
+                    android:text="handle"/>
                 <TextView
-                    android:layout_weight="8"
                     android:layout_width="wrap_content"
+                    android:layout_marginStart="40dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:text="rating"/>

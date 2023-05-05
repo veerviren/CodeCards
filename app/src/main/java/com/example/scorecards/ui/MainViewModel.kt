@@ -88,8 +88,6 @@ class MainViewModel @Inject constructor(
                 friendList.add(friend)
                 _friends.value = friendList.toList()
             }
-
-
     }
 
     fun removeFriend(friend: Friend) {
