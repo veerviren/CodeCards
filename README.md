@@ -2,14 +2,14 @@
 <p align="center">  
 A Media center app based on modern Android application tech-stacks and provide user a seemless coding profile experience.
 <br>
-This project is for focusing especially to show collective different coding platform infonatiom.
+This project is for focusing especially to show collective different coding platform informatiom.
 </p>
 
 ## Preview
 
-Home|Browse|Library
-:-----:|:-------------------------------:|:-----------:|
-![Home](/Images/home.png)|![Browse](/images/browse.png)|![Library](/images/library.png)
+Handle Input|Home Screen|Add friends|More Info
+:-----:|:--------------:|:-----------:|:---------:|
+![Handle Input](/Images/handle_input.png)|![Home](/Images/home_screen.png)|![Add Friends](/Images/add_friend_dialog.png)|![More Info](/Images/Info_screen.png)
 
 ## Tech stack
 
