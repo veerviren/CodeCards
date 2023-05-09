@@ -1,23 +1,15 @@
 <h1 align="center">CodeCards</h1>
 <p align="center">  
-A interactive codeing platform performance center app based on modern Android application tech-stacks and provide user a seemless coding profile experience.
+A interactive coding platform profile and performance center app based on modern Android application tech-stacks and provide user a seemless coding profile experience.
 <br>
-This project is for focusing especially on the Retrofit, MVVM Architectural Design and the use of Room Database.
+This project is for focusing especially provide user coding platform availability at any place and time.
 </p>
 
 ## Preview
 
-Home|Browse|Library
-:-----:|:-------------------------------:|:-----------:|
-![Home](/images/home.png)|![Browse](/images/browse.png)|![Library](/images/library.png)
-Media|Details|Cast
-![Media](/images/media.png)|![Details](/images/details.png)|![Cast](/images/cast.png)
-Search|Seasons|Episodes
-![Search](/images/search.png)|![Seasons](/images/seasons.png)|![Episodes](/images/episodes.png)
-
-## Download
-
-Go to the [Releases](https://github.com/veerviren/ZPlex/releases) to download the latest APK.
+Handle Input|Home Screen|Add friend|More Info|
+:-----:|:--------------:|:--------:|:--------|
+![Handle Input](/Images/handle_input.png)|![Home_Screen](/Images/home_screen.png)|![Add_friend](/Images/add_friend_dialog.png)|![More Info](/Images/Info_screen.png)
 
 ## Tech stack
 
@@ -28,4 +20,3 @@ Go to the [Releases](https://github.com/veerviren/ZPlex/releases) to download th
 - Glide - loading images.
 - Palette - Generating color palette from images.
 - Material-Components - Material design components like ripple animation, cardView.
--
