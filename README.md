@@ -1,6 +1,6 @@
 <h1 align="center">CodeCards</h1>
 <p align="center">  
-A Media center app based on modern Android application tech-stacks and MVVM architecture and repository pattern.
+A interactive codeing platform performance center app based on modern Android application tech-stacks and provide user a seemless coding profile experience.
 <br>
 This project is for focusing especially on the Retrofit, MVVM Architectural Design and the use of Room Database.
 </p>

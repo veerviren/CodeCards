@@ -11,7 +11,6 @@ import zechs.codeforcesapi.utils.runInTryCatch
 class CodeforcesRepository(
     private val api: CodeforcesApi
 ) {
-
     suspend fun getUser(handle: String): Resource<User> {
         return withContext(Dispatchers.IO) {
             return@withContext runInTryCatch(
