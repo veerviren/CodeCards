@@ -20,3 +20,6 @@ Handle Input|Home Screen|Add friend|More Info|
 - Glide - loading images.
 - Palette - Generating color palette from images.
 - Material-Components - Material design components like ripple animation, cardView.
+- Shimmer Effect - For loadding effect 
+- Retrofit - A type-safe REST client for Kotlin
+- OkHttp - For sending and receive HTTP-based network requests
