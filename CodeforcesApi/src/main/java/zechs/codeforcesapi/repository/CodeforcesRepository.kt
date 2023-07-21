@@ -3,6 +3,7 @@ package zechs.codeforcesapi.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import zechs.codeforcesapi.data.model.Contest
 import zechs.codeforcesapi.data.model.User
 import zechs.codeforcesapi.data.remote.CodeforcesApi
 import zechs.codeforcesapi.utils.Resource
@@ -42,6 +43,34 @@ class CodeforcesRepository(
                                     maxRank = info.maxRank,
                                     totalQuestionsSolved = count ?: 0
                                 )
+                            )
+                        }
+                    }
+                    return@runInTryCatch Resource.Error("Network error")
+                },
+                catchBlock = { err ->
+                    err.printStackTrace()
+                    val msg = err.localizedMessage ?: "Something went wrong"
+                    return@runInTryCatch Resource.Error(msg)
+                }
+            )
+        }
+    }
+
+    suspend fun getContests(): Resource<List<Contest>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext runInTryCatch(
+                tryBlock = {
+                    val contests = api.getContestList()
+                    if (contests.isSuccessful) {
+                        val contestResult = contests.body()!!.result
+                        if (contestResult == null) {
+                            val error = "Something went wrong"
+                            return@runInTryCatch Resource.Error(error)
+                        } else {
+
+                            return@runInTryCatch Resource.Success(
+                                contestResult
                             )
                         }
                     }
