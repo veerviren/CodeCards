@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="6dp"
-        android:text="Delete"
+        android:text="Remove"
         android:textColor="@color/cardview_dark_background"
         android:backgroundTint="@color/cardview_light_background"
         android:drawableLeft="@drawable/baseline_delete_forever_24"
