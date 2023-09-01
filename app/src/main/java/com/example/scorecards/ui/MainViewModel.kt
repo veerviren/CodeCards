@@ -15,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import zechs.codeforcesapi.data.model.Contest
+import zechs.codeforcesapi.data.model.ContestListResponse
 import zechs.codeforcesapi.data.model.User
 import zechs.codeforcesapi.repository.CodeforcesRepository
 import javax.inject.Inject
@@ -26,6 +28,9 @@ class MainViewModel @Inject constructor(
 
     private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState: StateFlow<Resource<User>> = _userState
+
+    private val _contestState = MutableStateFlow<Resource<List<Contest>>>(Resource.Loading())
+    val contestState: StateFlow<Resource<List<Contest>>> = _contestState
 
 
     private val friendList = mutableListOf<Friend>()
@@ -40,6 +45,15 @@ class MainViewModel @Inject constructor(
         _userState.value = Resource.Loading()
         val response = repository.getUser(handle)
         _userState.value = when (response) {
+            is zechs.codeforcesapi.utils.Resource.Error -> Resource.Error(response.message)
+            is zechs.codeforcesapi.utils.Resource.Success -> Resource.Success(response.data)
+        }
+    }
+
+    fun getContest() = viewModelScope.launch ( Dispatchers.IO) {
+        _contestState.value = Resource.Loading()
+        val response = repository.getContests()
+        _contestState.value = when(response){
             is zechs.codeforcesapi.utils.Resource.Error -> Resource.Error(response.message)
             is zechs.codeforcesapi.utils.Resource.Success -> Resource.Success(response.data)
         }

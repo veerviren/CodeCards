@@ -1,7 +1,6 @@
 package com.example.scorecards.ui
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
@@ -10,19 +9,18 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -37,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import zechs.codeforcesapi.data.model.Contest
 
 
 @AndroidEntryPoint
@@ -69,11 +68,13 @@ class MainActivity : AppCompatActivity() {
                 R.layout.activity_detail_card,
                 findViewById(R.id.detailCardLayout)
             )
+
         val button = findViewById<Button>(R.id.show)
         button.setOnClickListener {
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
         }
+
         //recycleview
         recyclerView = bottomSheetView.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                     friendsAdapter.submitList(it)
                 }
             }
-           }
+        }
 
         // logic to add friend handle
         val addButton = bottomSheetView.findViewById<Button>(R.id.add_friend_handle)
@@ -232,6 +233,58 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.getUser(handle.trim())
+
+        viewModel.getContest()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.contestState.collect{response ->
+                    Log.d("DetailCard", response.toString())
+                    print("ContestList--------- ${response.data}")
+                    when (response) {
+                        is Resource.Error -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Error",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is Resource.Loading -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Loading",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is Resource.Success -> {
+                            Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
+
+                            val upcomingContests = response.data?.let { getUpcomingContests(it) }
+                            Log.d("MainActivity", "Upcoming contests: $upcomingContests")
+
+                            recyclerView = bottomSheetView.findViewById(R.id.upcoming_contest_recyclerview)
+                            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+
+                            if (upcomingContests != null) {
+                                val adapter = UpcomingContestAdapter(upcomingContests)
+                                recyclerView.adapter = adapter
+
+                                val snapHelper = PagerSnapHelper()
+                                snapHelper.attachToRecyclerView(recyclerView)
+
+                                recyclerView.addItemDecoration(HorizontalIndicator())
+
+                            } else {
+                                recyclerView.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         gradientObserver()
     }
 
@@ -280,4 +333,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getUpcomingContests(upcomingContests: List<Contest>): List<Contest> {
+        // Filter contests that are in the "BEFORE" phase
+        val beforeContests = upcomingContests.filter { it.phase == "BEFORE" }
+
+        // Sort the contests by start time in ascending order
+        val sortedContests = beforeContests.sortedBy { it.startTimeSeconds }
+
+        return sortedContests
+    }
 }
