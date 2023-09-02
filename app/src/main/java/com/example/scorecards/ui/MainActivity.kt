@@ -1,5 +1,6 @@
 package com.example.scorecards.ui
 
+import HorizontalIndicator
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
