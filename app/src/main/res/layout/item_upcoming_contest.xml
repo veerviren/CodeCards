@@ -1,48 +1,56 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:background="@color/cardview_dark_background"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_gravity="center_horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="5dp"
+    android:elevation="4dp">
 
+    <!-- Add a semi-transparent white background to the CardView -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="#806F6E6E"> <!-- Use #80FFFFFF for a semi-transparent white background -->
 
-        <TextView
-            android:id="@+id/contestName"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:maxWidth="140dp"
-            android:maxLines="4"
-            android:ellipsize="end"
-            android:text="ContestName"
-            android:textColor="@android:color/white"
-            android:paddingStart="8dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            />
-
-        <TextView
-            android:id="@+id/contestTime"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date"
-            android:textColor="@android:color/white"
-            android:paddingStart="8dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            />
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/contestName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxWidth="140dp"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:text="ContestName"
+                android:textColor="@android:color/white"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/contestTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textColor="@android:color/white"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>
