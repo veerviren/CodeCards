@@ -1,6 +1,6 @@
 package com.example.scorecards.ui
 
-import HorizontalIndicator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -40,7 +40,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import zechs.codeforcesapi.data.model.Contest
-import zechs.codeforcesapi.data.model.UserRating
 
 
 @AndroidEntryPoint
@@ -50,7 +49,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: CardDesignBinding
     private lateinit var handle: String;
 
-    //recycleview
     private lateinit var recyclerView: RecyclerView
 
     private val friendsAdapter by lazy {
@@ -63,17 +61,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         })
     }
+    private val ratingListAdapter by lazy {
+        RatingListAdapter()
+    }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // start the shimmer effect
         val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
         shimmerFrameLayout.showShimmer(true)
 
-        // bottom sheet dialog
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetView = LayoutInflater.from(this)
             .inflate(
@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.show()
         }
 
-        //recycleview
         recyclerView = bottomSheetView.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -103,7 +102,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // logic to add friend handle
         val addButton = bottomSheetView.findViewById<Button>(R.id.add_friend_handle)
 
         addButton.setOnClickListener {
@@ -164,7 +162,6 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         is Resource.Success -> {
-                            // stop the shimmer effect
                             shimmerFrameLayout.hideShimmer()
 
                             val user = response.data!!
@@ -179,7 +176,6 @@ class MainActivity : AppCompatActivity() {
                                 queSolved.text =
                                     getString(R.string.noOfProblems, user.totalQuestionsSolved)
 
-                                // break 2 words Name
                                 maxRankName.text =
                                     getString(R.string.maxRank, user.maxRank).replace(" ", "\n")
                                 currentRankName.text =
@@ -189,27 +185,19 @@ class MainActivity : AppCompatActivity() {
                                 print(maxRankName)
                                 print(currentRankName)
 
-                                // Capitalising first letter of Ranking name
                                 makeFirstLetterUpperCase(currentRankName)
                                 makeFirstLetterUpperCase(maxRankName)
 
-                                // logic for color change in handle
                                 setTextViewColor(userName, user.rating)
 
-                                // logic for color change in currentRank
                                 setTextViewColor(currentRankName, user.rating)
 
-                                // logic for color change in MaxRank
                                 setTextViewColor(maxRankName, user.maxRating)
 
-                                // color formatting for legendary grandmaster
                                 if (user.rating >= 3000) {
-
-                                    // fro user handle
                                     changeLegendaryGrandmasterColor(userName)
                                 }
 
-                                // Image logic
                                 val imageView: ImageView = findViewById(R.id.userImage)
 
                                 Glide.with(this@MainActivity)
@@ -272,42 +260,27 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         is Resource.Success -> {
-                            Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
 
                             val upcomingContests = response.data?.let { getUpcomingContests(it) }
-//                            Log.d("MainActivity", "Upcoming contests: $upcomingContests")
 
                             if (!upcomingContests.isNullOrEmpty()) {
-                                // Assuming you have references to your RecyclerView, "next" button, and "previous" button
-                                val nextButton = bottomSheetView.findViewById<Button>(R.id.nextButton)
-                                val prevButton = bottomSheetView.findViewById<Button>(R.id.prevButton)
+                                val nextButtonContest = bottomSheetView.findViewById<Button>(R.id.nextButton)
+                                val prevButtonContest = bottomSheetView.findViewById<Button>(R.id.prevButton)
 
                                 contestAdapter.submitList(upcomingContests.toList())
 
                                 var currentPage = 0
-                                updateButtonVisibility(currentPage, recyclerView, prevButton, nextButton)
+                                updateButtonVisibility(currentPage, recyclerView, prevButtonContest, nextButtonContest)
 
                                 recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                                         super.onScrolled(recyclerView, dx, dy)
                                         currentPage = getCurrentPage(recyclerView)
-                                        updateButtonVisibility(currentPage, recyclerView, prevButton, nextButton)
+                                        updateButtonVisibility(currentPage, recyclerView, prevButtonContest, nextButtonContest)
                                     }
                                 })
 
-                                nextButton.setOnClickListener {
-                                    if (currentPage < upcomingContests.size - 1) {
-                                        currentPage++
-                                        recyclerView.smoothScrollToPosition(currentPage)
-                                    }
-                                }
-
-                                prevButton.setOnClickListener {
-                                    if (currentPage > 0) {
-                                        currentPage--
-                                        recyclerView.smoothScrollToPosition(currentPage)
-                                    }
-                                }
+                                setupNavigationButtons(recyclerView, nextButtonContest, prevButtonContest)
                             } else {
                                 recyclerView.visibility = View.GONE
                             }
@@ -317,47 +290,78 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        lifecycleScope.launch {
-//            Log.d("MainActivity","rated user launched")
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.ratedUserState.collect{response ->
-//                    when (response) {
-//                        is Resource.Error -> {
-//                            Log.d("MainActivity","rated user error")
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                response.message,
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
-//
-//                        is Resource.Loading -> {
-//                            Log.d("MainActivity","rated user loading")
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                "Loading",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
-//
-//                        is Resource.Success -> {
-//                            Log.d("MainActivity","rated user Success")
-//                            Toast.makeText(this@MainActivity, "Success2", Toast.LENGTH_SHORT).show()
-//
-//                            val ratedUsers = response.data?.sortedByDescending { it.rating }
-//
-//                            Log.d("MainActivity","rated user list: ${response.data}")
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        val userProgressRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.UserProgressRecyclerview)
+        userProgressRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+        userProgressRecyclerView.adapter = ratingListAdapter
+
+        snapHelper.attachToRecyclerView(userProgressRecyclerView)
+
+        lifecycleScope.launch {
+            Log.d("MainActivity","rated user launched")
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.ratedUserState.collect{response ->
+                    when (response) {
+                        is Resource.Error -> {
+                            Log.d("MainActivity","rated user error")
+                            Toast.makeText(
+                                this@MainActivity,
+                                response.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is Resource.Loading -> {
+                            Log.d("MainActivity","rated user loading")
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Loading",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is Resource.Success -> {
+                            Log.d("MainActivity","rated user Success")
+                            Toast.makeText(this@MainActivity, "Success2", Toast.LENGTH_SHORT).show()
+
+                            val contestRating = response.data
+
+                            Log.d("MainActivity","rated user list: $contestRating")
+
+                            if(!contestRating.isNullOrEmpty())
+                            {
+                                val nextButtonUserProgress = bottomSheetView.findViewById<Button>(R.id.UserProgressNextButton)
+                                val prevButtonUserProgress = bottomSheetView.findViewById<Button>(R.id.UserProgressPrevButton)
+
+                                ratingListAdapter.submitList(contestRating.toList())
+
+                                var currentPage = 0
+                                updateButtonVisibility(currentPage, userProgressRecyclerView, prevButtonUserProgress, nextButtonUserProgress)
+
+                                userProgressRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                        super.onScrolled(recyclerView, dx, dy)
+                                        currentPage = getCurrentPage(recyclerView)
+                                        updateButtonVisibility(currentPage, recyclerView, prevButtonUserProgress, nextButtonUserProgress)
+                                    }
+                                })
+
+                                setupNavigationButtons(userProgressRecyclerView, nextButtonUserProgress, prevButtonUserProgress)
+
+                            }
+                            else {
+                                recyclerView.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         viewModel.getUser(handle.trim())
 
         viewModel.getContest()
 
-//        viewModel.getUserRating()
+        viewModel.getUserRating(handle.trim())
 
         gradientObserver()
     }
@@ -377,6 +381,24 @@ class MainActivity : AppCompatActivity() {
 
         prevButton.visibility = if (isAtFirstPage) View.GONE else View.VISIBLE
         nextButton.visibility = if (isAtLastPage) View.GONE else View.VISIBLE
+    }
+
+    private fun setupNavigationButtons(recyclerView: RecyclerView, nextButton: Button, prevButton: Button) {
+        var currentPage = 0
+
+        nextButton.setOnClickListener {
+            if (currentPage < recyclerView.adapter?.itemCount?.minus(1) ?: 0) {
+                currentPage++
+                recyclerView.smoothScrollToPosition(currentPage)
+            }
+        }
+
+        prevButton.setOnClickListener {
+            if (currentPage > 0) {
+                currentPage--
+                recyclerView.smoothScrollToPosition(currentPage)
+            }
+        }
     }
     private fun setTextViewColor(view: TextView, userRating: Int) {
         when {
@@ -422,36 +444,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getUpcomingContests(upcomingContests: List<Contest>): List<Contest> {
-        // Filter contests that are in the "BEFORE" phase
+    private fun getUpcomingContests(upcomingContests: List<Contest>): List<Contest> {
         val beforeContests = upcomingContests.filter { it.phase == "BEFORE" }
 
-        // Sort the contests by start time in ascending order
-        val sortedContests = beforeContests.sortedBy { it.startTimeSeconds }
-
-        return sortedContests
+        return beforeContests.sortedBy { it.startTimeSeconds }
     }
-
-    fun getRatedUsers(
-        data: List<UserRating>,
-        enteredHandle: String
-    ): List<UserRating> {
-
-        val sortedUsers = data.sortedBy { it.rating }
-
-        val givenUserIndex = sortedUsers.indexOf(data.find { it.handle == enteredHandle })
-
-        val higherRatedUsers = sortedUsers
-            .subList(maxOf(0, givenUserIndex + 1), minOf(sortedUsers.size, givenUserIndex + 6))
-
-        val lowerRatedUsers = sortedUsers
-            .subList(maxOf(0, givenUserIndex - 5), minOf(sortedUsers.size, givenUserIndex))
-
-        val combinedUsers = mutableListOf<UserRating>()
-        combinedUsers.addAll(higherRatedUsers)
-        combinedUsers.addAll(lowerRatedUsers)
-
-        return combinedUsers
-    }
-
 }

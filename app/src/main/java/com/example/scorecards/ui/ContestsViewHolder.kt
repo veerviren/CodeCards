@@ -1,10 +1,7 @@
 package com.example.scorecards.ui
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.scorecards.R
 import com.example.scorecards.databinding.ItemUpcomingContestBinding
-import com.example.scorecards.databinding.RecyclerViewItemBinding
 import zechs.codeforcesapi.data.model.Contest
 import java.text.SimpleDateFormat
 import java.util.Date

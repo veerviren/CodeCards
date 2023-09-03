@@ -5,22 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.scorecards.R
 import com.example.scorecards.databinding.ItemUpcomingContestBinding
-import zechs.codeforcesapi.data.model.Contest
+import zechs.codeforcesapi.data.model.UserRating
 
-class ContestListAdapter(
-    val onClick: (Int) -> Unit
-) : ListAdapter<Contest, ContestsViewHolder>(ContestDiffCallBack()) {
+class RatingListAdapter : ListAdapter<UserRating, RatingViewHolder>(RatingDiffCallBack()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ) =  ContestsViewHolder(
-            itemBinding = ItemUpcomingContestBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent, false
-            ),
-        this)
+    ) =  RatingViewHolder(
+        itemBinding = ItemUpcomingContestBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        ),
+        )
 
-    override fun onBindViewHolder(holder: ContestsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RatingViewHolder, position: Int) {
         val item = getItem(position)
         return holder.bind(item)
     }

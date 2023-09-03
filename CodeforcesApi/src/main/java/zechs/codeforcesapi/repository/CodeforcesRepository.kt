@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import zechs.codeforcesapi.data.model.Contest
 import zechs.codeforcesapi.data.model.User
+import zechs.codeforcesapi.data.model.UserRating
 import zechs.codeforcesapi.data.remote.CodeforcesApi
 import zechs.codeforcesapi.utils.Resource
 import zechs.codeforcesapi.utils.runInTryCatch
@@ -85,4 +86,41 @@ class CodeforcesRepository(
         }
     }
 
+    suspend fun getUserRating(handle: String): Resource<List<UserRating>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext runInTryCatch(
+                tryBlock = {
+                    val userRatingInfo = async { api.getUserRating(handle) }
+                    val userRating = userRatingInfo.await()
+                    if (userRating.isSuccessful) {
+                        val result = userRating.body()?.result
+                        if (result == null) {
+                            val error = userRating.body()?.comment ?: "Something went wrong"
+                            return@runInTryCatch Resource.Error(error)
+                        } else {
+                            val userContestRating = mutableListOf<UserRating>()
+
+                            for (i in result) {
+                                val userContestInfo = UserRating(
+                                    oldRating = i.oldRating,
+                                    newRating = i.newRating,
+                                    contestName = i.contestName,
+                                    contestId = i.contestId
+                                )
+                                userContestRating.add(userContestInfo)
+                            }
+
+                            return@runInTryCatch Resource.Success(userContestRating)
+                        }
+                    }
+                    return@runInTryCatch Resource.Error("Network error")
+                },
+                catchBlock = { err ->
+                    err.printStackTrace()
+                    val msg = err.localizedMessage ?: "Something went wrong"
+                    return@runInTryCatch Resource.Error(msg)
+                }
+            )
+        }
+    }
 }

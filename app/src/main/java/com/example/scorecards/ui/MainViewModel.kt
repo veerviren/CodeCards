@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import zechs.codeforcesapi.data.model.Contest
-import zechs.codeforcesapi.data.model.ContestListResponse
+import zechs.codeforcesapi.data.model.UserRating
 import zechs.codeforcesapi.data.model.User
 import zechs.codeforcesapi.repository.CodeforcesRepository
 import javax.inject.Inject
@@ -31,6 +30,9 @@ class MainViewModel @Inject constructor(
 
     private val _contestState = MutableStateFlow<Resource<List<Contest>>>(Resource.Loading())
     val contestState: StateFlow<Resource<List<Contest>>> = _contestState
+
+    private val _ratedUserState = MutableStateFlow<Resource<List<UserRating>>>(Resource.Loading())
+    val ratedUserState: StateFlow<Resource<List<UserRating>>> = _ratedUserState
 
 
     private val friendList = mutableListOf<Friend>()
@@ -54,6 +56,15 @@ class MainViewModel @Inject constructor(
         _contestState.value = Resource.Loading()
         val response = repository.getContests()
         _contestState.value = when(response){
+            is zechs.codeforcesapi.utils.Resource.Error -> Resource.Error(response.message)
+            is zechs.codeforcesapi.utils.Resource.Success -> Resource.Success(response.data)
+        }
+    }
+
+    fun getUserRating(handle: String) = viewModelScope.launch ( Dispatchers.IO) {
+        _ratedUserState.value = Resource.Loading()
+        val response = repository.getUserRating(handle)
+        _ratedUserState.value = when(response){
             is zechs.codeforcesapi.utils.Resource.Error -> Resource.Error(response.message)
             is zechs.codeforcesapi.utils.Resource.Success -> Resource.Success(response.data)
         }

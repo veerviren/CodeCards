@@ -119,16 +119,45 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/cardview_light_background"
                             android:text="Progress"
-                            android:textSize="15dp"
+                            android:textSize="18sp"
                             android:layout_gravity="center"/>
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/competitor_recyclerview"
+                            android:id="@+id/UserProgressRecyclerview"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
+                            android:layout_height="130dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                            android:layout_marginTop="10dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/UserProgressPrevButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:gravity="start"
+                                app:iconSize="16dp"
+                                app:iconTint="@color/cardview_light_background"
+                                app:icon="@drawable/baseline_arrow_back_ios_new_24"
+                                style="@style/Widget.Material3.Button.IconButton" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/UserProgressNextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:iconSize="16dp"
+                                android:layout_gravity="end"
+                                android:gravity="end"
+                                app:icon="@drawable/baseline_navigate_next_24"
+                                app:iconTint="@color/cardview_light_background"
+                                style="@style/Widget.Material3.Button.IconButton"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

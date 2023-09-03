@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import zechs.codeforcesapi.data.model.ContestListResponse
 import zechs.codeforcesapi.data.model.UserInfoResponse
+import zechs.codeforcesapi.data.model.UserRatingResponse
 import zechs.codeforcesapi.data.model.UserStatusResponse
 
 interface CodeforcesApi {
@@ -22,4 +23,9 @@ interface CodeforcesApi {
     @GET("api/contest.list")
     suspend fun getContestList(
     ): Response<ContestListResponse>
+
+    @GET("api/user.rating")
+    suspend fun getUserRating(
+        @Query("handle") handle: String
+    ): Response<UserRatingResponse>
 }
