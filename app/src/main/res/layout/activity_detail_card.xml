@@ -118,8 +118,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/cardview_light_background"
-                            android:text="Progress"
-                            android:textSize="18sp"
+                            android:text="Rating Progress"
+                            android:textSize="16sp"
                             android:layout_gravity="center"/>
 
                         <androidx.recyclerview.widget.RecyclerView
