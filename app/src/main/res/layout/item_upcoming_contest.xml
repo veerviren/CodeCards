@@ -39,7 +39,7 @@
                 android:id="@+id/contestTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date"
+                android:text="Time"
                 android:textColor="@android:color/white"
                 android:paddingStart="8dp"
                 android:paddingTop="8dp"

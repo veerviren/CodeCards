@@ -1,8 +1,10 @@
 package com.example.scorecards.ui
 
 import HorizontalIndicator
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -30,6 +32,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
+import com.example.scorecards.utils.Constants.Companion.CODEFORCES_API_URL
 import com.example.scorecards.utils.Resource
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -37,6 +40,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import zechs.codeforcesapi.data.model.Contest
+import zechs.codeforcesapi.data.model.UserRating
 
 
 @AndroidEntryPoint
@@ -51,6 +55,13 @@ class MainActivity : AppCompatActivity() {
 
     private val friendsAdapter by lazy {
         FriendListAdapter(onDelete = { viewModel.removeFriend(it)})
+    }
+
+    private val contestAdapter by lazy {
+        ContestListAdapter(onClick = {id->
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${CODEFORCES_API_URL}/contestRegistration/$id"))
+            startActivity(intent)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -157,6 +168,7 @@ class MainActivity : AppCompatActivity() {
                             shimmerFrameLayout.hideShimmer()
 
                             val user = response.data!!
+
                             binding.apply {
                                 userName.text = user.handle
                                 maxRankName.text = getString(R.string.maxRank, user.maxRank)
@@ -233,20 +245,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.getUser(handle.trim())
-
-        viewModel.getContest()
+        recyclerView = bottomSheetView.findViewById(R.id.upcoming_contest_recyclerview)
+        recyclerView.adapter = contestAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(recyclerView)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.contestState.collect{response ->
-                    Log.d("DetailCard", response.toString())
-                    print("ContestList--------- ${response.data}")
                     when (response) {
                         is Resource.Error -> {
                             Toast.makeText(
                                 this@MainActivity,
-                                "Error",
+                                response.message,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -263,20 +275,39 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
 
                             val upcomingContests = response.data?.let { getUpcomingContests(it) }
-                            Log.d("MainActivity", "Upcoming contests: $upcomingContests")
+//                            Log.d("MainActivity", "Upcoming contests: $upcomingContests")
 
-                            recyclerView = bottomSheetView.findViewById(R.id.upcoming_contest_recyclerview)
-                            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                            if (!upcomingContests.isNullOrEmpty()) {
+                                // Assuming you have references to your RecyclerView, "next" button, and "previous" button
+                                val nextButton = bottomSheetView.findViewById<Button>(R.id.nextButton)
+                                val prevButton = bottomSheetView.findViewById<Button>(R.id.prevButton)
 
-                            if (upcomingContests != null) {
-                                val adapter = UpcomingContestAdapter(upcomingContests)
-                                recyclerView.adapter = adapter
+                                contestAdapter.submitList(upcomingContests.toList())
 
-                                val snapHelper = PagerSnapHelper()
-                                snapHelper.attachToRecyclerView(recyclerView)
+                                var currentPage = 0
+                                updateButtonVisibility(currentPage, recyclerView, prevButton, nextButton)
 
-                                recyclerView.addItemDecoration(HorizontalIndicator())
+                                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                        super.onScrolled(recyclerView, dx, dy)
+                                        currentPage = getCurrentPage(recyclerView)
+                                        updateButtonVisibility(currentPage, recyclerView, prevButton, nextButton)
+                                    }
+                                })
 
+                                nextButton.setOnClickListener {
+                                    if (currentPage < upcomingContests.size - 1) {
+                                        currentPage++
+                                        recyclerView.smoothScrollToPosition(currentPage)
+                                    }
+                                }
+
+                                prevButton.setOnClickListener {
+                                    if (currentPage > 0) {
+                                        currentPage--
+                                        recyclerView.smoothScrollToPosition(currentPage)
+                                    }
+                                }
                             } else {
                                 recyclerView.visibility = View.GONE
                             }
@@ -286,10 +317,67 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+//        lifecycleScope.launch {
+//            Log.d("MainActivity","rated user launched")
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel.ratedUserState.collect{response ->
+//                    when (response) {
+//                        is Resource.Error -> {
+//                            Log.d("MainActivity","rated user error")
+//                            Toast.makeText(
+//                                this@MainActivity,
+//                                response.message,
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//
+//                        is Resource.Loading -> {
+//                            Log.d("MainActivity","rated user loading")
+//                            Toast.makeText(
+//                                this@MainActivity,
+//                                "Loading",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//
+//                        is Resource.Success -> {
+//                            Log.d("MainActivity","rated user Success")
+//                            Toast.makeText(this@MainActivity, "Success2", Toast.LENGTH_SHORT).show()
+//
+//                            val ratedUsers = response.data?.sortedByDescending { it.rating }
+//
+//                            Log.d("MainActivity","rated user list: ${response.data}")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+        viewModel.getUser(handle.trim())
+
+        viewModel.getContest()
+
+//        viewModel.getUserRating()
+
         gradientObserver()
     }
 
+    private fun getCurrentPage(recyclerView: RecyclerView): Int {
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        if (firstVisibleItemPosition != RecyclerView.NO_POSITION) {
+            return firstVisibleItemPosition
+        }
+        return 0
+    }
 
+    private fun updateButtonVisibility(currentPage: Int, recyclerView: RecyclerView, prevButton: Button, nextButton: Button) {
+        val isAtFirstPage = currentPage == 0
+        val isAtLastPage = currentPage == recyclerView.adapter?.itemCount?.minus(1)
+
+        prevButton.visibility = if (isAtFirstPage) View.GONE else View.VISIBLE
+        nextButton.visibility = if (isAtLastPage) View.GONE else View.VISIBLE
+    }
     private fun setTextViewColor(view: TextView, userRating: Int) {
         when {
             userRating <= 1200 -> view.setTextColor(Color.parseColor("#988f81")) // Newbie
@@ -343,4 +431,27 @@ class MainActivity : AppCompatActivity() {
 
         return sortedContests
     }
+
+    fun getRatedUsers(
+        data: List<UserRating>,
+        enteredHandle: String
+    ): List<UserRating> {
+
+        val sortedUsers = data.sortedBy { it.rating }
+
+        val givenUserIndex = sortedUsers.indexOf(data.find { it.handle == enteredHandle })
+
+        val higherRatedUsers = sortedUsers
+            .subList(maxOf(0, givenUserIndex + 1), minOf(sortedUsers.size, givenUserIndex + 6))
+
+        val lowerRatedUsers = sortedUsers
+            .subList(maxOf(0, givenUserIndex - 5), minOf(sortedUsers.size, givenUserIndex))
+
+        val combinedUsers = mutableListOf<UserRating>()
+        combinedUsers.addAll(higherRatedUsers)
+        combinedUsers.addAll(lowerRatedUsers)
+
+        return combinedUsers
+    }
+
 }

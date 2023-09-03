@@ -9,7 +9,6 @@ data class UserInfoResponse(
 data class InfoResult(
     val avatar: String,
     val contribution: Int,
-//    val firstName: String?,
     val friendOfCount: Int,
     val handle: String,
     val lastName: String?,
@@ -21,10 +20,4 @@ data class InfoResult(
     val rating: Int,
     val registrationTimeSeconds: Int,
     val titlePhoto: String
-) {
-
-//    fun getFullName() = "${
-//        firstName.lowercase().replaceFirstChar { it.uppercase() }
-//    } ${lastName.lowercase().replaceFirstChar { it.uppercase() }}"
-
-}
+)
