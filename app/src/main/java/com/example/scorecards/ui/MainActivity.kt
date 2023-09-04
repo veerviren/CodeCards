@@ -332,7 +332,7 @@ class MainActivity : AppCompatActivity() {
                                 val nextButtonUserProgress = bottomSheetView.findViewById<Button>(R.id.UserProgressNextButton)
                                 val prevButtonUserProgress = bottomSheetView.findViewById<Button>(R.id.UserProgressPrevButton)
 
-                                ratingListAdapter.submitList(contestRating.toList())
+                                ratingListAdapter.submitList(contestRating.toList().sortedByDescending { it.contestId })
 
                                 var currentPage = 0
                                 updateButtonVisibility(currentPage, userProgressRecyclerView, prevButtonUserProgress, nextButtonUserProgress)
