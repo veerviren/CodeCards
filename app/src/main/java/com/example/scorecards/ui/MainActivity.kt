@@ -387,7 +387,7 @@ class MainActivity : AppCompatActivity() {
         var currentPage = 0
 
         nextButton.setOnClickListener {
-            if (currentPage < recyclerView.adapter?.itemCount?.minus(1) ?: 0) {
+            if (currentPage < (recyclerView.adapter?.itemCount?.minus(1) ?: 0)) {
                 currentPage++
                 recyclerView.smoothScrollToPosition(currentPage)
             }

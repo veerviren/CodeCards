@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349128643494",
+    "project_id": "scorecards-80a63",
+    "storage_bucket": "scorecards-80a63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349128643494:android:91f45e6963eecfedf57567",
+        "android_client_info": {
+          "package_name": "com.example.scorecards"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZUas_duxsly3631y9TIK1Mwx8Ekvn9es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

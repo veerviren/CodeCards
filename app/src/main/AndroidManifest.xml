@@ -15,24 +15,29 @@
         android:theme="@style/Theme.ScoreCards"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DetailCard"
+            android:name=".ui.Registration"
             android:exported="true" >
 
-        </activity>
+            </activity>
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
-            >
-
-        </activity>
-        <activity
-            android:name=".ui.InputeCard"
-            android:exported="true">
+            android:name=".ui.Login"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.DetailCard"
+            android:exported="true" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.InputeCard"
+            android:exported="true">
+
         </activity>
     </application>
 
