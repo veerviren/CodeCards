@@ -8,6 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProfileActivity">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/profileCardshimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/profileCardView"
         android:layout_width="match_parent"
@@ -20,6 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -80,11 +86,12 @@
                     android:textColor="@color/md_theme_light_background"
                     style="@style/Widget.Material3.Button.IconButton"/>
             </LinearLayout>
-
-
-
         </LinearLayout>
 
+
+
     </androidx.cardview.widget.CardView>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
