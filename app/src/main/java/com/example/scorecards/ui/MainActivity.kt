@@ -1,21 +1,16 @@
 package com.example.scorecards.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +29,9 @@ import com.example.scorecards.R
 import com.example.scorecards.databinding.CardDesignBinding
 import com.example.scorecards.utils.Constants.Companion.CODEFORCES_API_URL
 import com.example.scorecards.utils.Resource
+import com.example.scorecards.utils.canLegendaryGrandmaster
+import com.example.scorecards.utils.makeFirstLetterUpperCase
+import com.example.scorecards.utils.setTextColorBasedOnRating
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -41,13 +39,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import zechs.codeforcesapi.data.model.Contest
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
-    private lateinit var handle: String;
+    private lateinit var handle: String
+    private var rating: Int = 0
+    private var profileImage = ""
+    private lateinit var lastLoadedImage: Drawable
 
     private lateinit var recyclerView: RecyclerView
 
@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
         RatingListAdapter()
     }
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
@@ -73,6 +72,23 @@ class MainActivity : AppCompatActivity() {
 
         val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
         shimmerFrameLayout.showShimmer(true)
+
+        val profileButton = findViewById<Button>(R.id.profileButton)
+
+        profileButton.setOnClickListener {
+            Toast.makeText(
+                this,
+                "Profile Button Clicked",
+                Toast.LENGTH_SHORT
+            ).show()
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("handle", handle)
+            intent.putExtra("profileImage", profileImage)
+            startActivity(intent)
+
+            intent.putExtra("rating", rating)
+            startActivity(intent)
+        }
 
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetView = LayoutInflater.from(this)
@@ -172,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                                 currentRankName.text = getString(R.string.currentRank, user.rank)
                                 currentRating.text =
                                     getString(R.string.currentRatingNum, user.rating)
+                                rating = user.rating
                                 maxRating.text = getString(R.string.maxRating, user.maxRating)
                                 queSolved.text =
                                     getString(R.string.noOfProblems, user.totalQuestionsSolved)
@@ -185,23 +202,23 @@ class MainActivity : AppCompatActivity() {
                                 print(maxRankName)
                                 print(currentRankName)
 
-                                makeFirstLetterUpperCase(currentRankName)
-                                makeFirstLetterUpperCase(maxRankName)
+                                currentRankName.makeFirstLetterUpperCase()
+                                maxRankName.makeFirstLetterUpperCase()
 
-                                setTextViewColor(userName, user.rating)
+                                userName.setTextColorBasedOnRating(user.rating)
 
-                                setTextViewColor(currentRankName, user.rating)
+                                currentRankName.setTextColorBasedOnRating(user.rating)
 
-                                setTextViewColor(maxRankName, user.maxRating)
+                                maxRankName.setTextColorBasedOnRating(user.maxRating)
 
-                                if (user.rating >= 3000) {
-                                    changeLegendaryGrandmasterColor(userName)
-                                }
+                                userName.canLegendaryGrandmaster(user.rating, userName)
 
                                 val imageView: ImageView = findViewById(R.id.userImage)
 
+                                profileImage = user.titlePhoto
+
                                 Glide.with(this@MainActivity)
-                                    .load(user.titlePhoto)
+                                    .load(profileImage)
                                     .placeholder(R.drawable.loading_effect)
                                     .error(R.drawable.error)
                                     .addListener(object : RequestListener<Drawable> {
@@ -400,40 +417,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun setTextViewColor(view: TextView, userRating: Int) {
-        when {
-            userRating <= 1200 -> view.setTextColor(Color.parseColor("#988f81")) // Newbie
-            userRating <= 1400 -> view.setTextColor(Color.parseColor("#77FF77")) // Pupil
-            userRating <= 1600 -> view.setTextColor(Color.parseColor("#77DDBB")) // Specialist
-            userRating <= 1900 -> view.setTextColor(Color.parseColor("#AAAAFF")) // Expert
-            userRating <= 2100 -> view.setTextColor(Color.parseColor("#ff88ff")) // Candidate Master
-            userRating <= 2300 -> view.setTextColor(Color.parseColor("#FFCC88")) // Master
-            userRating <= 2400 -> view.setTextColor(Color.parseColor("#FFBB55")) // International Master
-            userRating <= 2600 -> view.setTextColor(Color.parseColor("#FF7777")) // Grandmaster
-            userRating <= 3000 -> view.setTextColor(Color.parseColor("#FF3333")) // International Grandmaster
-            userRating <= 4000 -> view.setTextColor(Color.parseColor("#FF1C1F")) // Legendary Grandmaster
-            else -> view.setTextColor(Color.parseColor("#000000")) // black
-        }
-    }
-
-    private fun makeFirstLetterUpperCase(view: TextView) {
-        var fistChar: String = view.text.toString().substring(0, 1).uppercase()
-        var restChar: String = view.text.toString().substring(1)
-        view.text = fistChar + restChar
-    }
-
-    private fun changeLegendaryGrandmasterColor(view: TextView) {
-        val spannableString = SpannableString(view.text)
-        val colorSpan = ForegroundColorSpan(Color.parseColor("#000000"))
-        spannableString.setSpan(
-            colorSpan,
-            0,
-            1,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        view.text = spannableString
-    }
-
     private fun gradientObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

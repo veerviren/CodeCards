@@ -39,7 +39,7 @@ class InputeCard : AppCompatActivity() {
             .into(imageView)
 
         val button: Button = findViewById(R.id.submit_button)
-        sharedPreferences = getSharedPreferences("USER_HANDLE", MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("USER_INFO", MODE_PRIVATE)
 
         // Check if handle is available in local storage
         val savedHandle = sharedPreferences.getString("HANDLE", "")

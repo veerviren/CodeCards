@@ -22,7 +22,7 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
-        sharedPreferences = getSharedPreferences("CREDENTIALS", MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("USER_INFO", MODE_PRIVATE)
 
         val email = findViewById<EditText>(R.id.LoginEmail)
         val password = findViewById<EditText>(R.id.LoginPassword)
