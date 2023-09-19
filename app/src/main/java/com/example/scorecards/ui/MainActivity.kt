@@ -203,7 +203,7 @@ class MainActivity : AppCompatActivity() {
 
                                 val imageView: ImageView = findViewById(R.id.userImage)
 
-                                profileImage = user.titlePhoto
+                                profileImage = user.titlePhoto 
 
                                 Glide.with(this@MainActivity)
                                     .load(profileImage)
