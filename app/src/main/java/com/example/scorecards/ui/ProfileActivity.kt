@@ -3,6 +3,7 @@ package com.example.scorecards.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
@@ -17,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import kotlin.concurrent.timerTask
 
 @AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
@@ -76,31 +79,14 @@ class ProfileActivity : AppCompatActivity() {
         val userInfoReference: DatabaseReference? = userUid?.let {
             database.getReference("users").child(it).child("user_info")
         }
-
         shimmerFrameLayout.showShimmer(true)
 
-        userInfoReference?.get()?.addOnSuccessListener { dataSnapshot ->
-            if (dataSnapshot.hasChild("handle")) {
-                userInfoReference.child("handle").removeValue()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            shimmerFrameLayout.hideShimmer()
-                        } else {
-                            val error = task.exception
-                            Log.e("FirebaseError", "Failed to remove handle: $error")
-                            Toast.makeText(
-                                applicationContext,
-                                "Failed to remove handle. Please try again.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            shimmerFrameLayout.hideShimmer()
-                        }
-                    }
-            } else {
+        userInfoReference?.child("handle")?.removeValue()?.addOnCompleteListener(this) {
+            if (it.isSuccessful) {
                 shimmerFrameLayout.hideShimmer()
             }
         }
+
+
     }
-
-
 }

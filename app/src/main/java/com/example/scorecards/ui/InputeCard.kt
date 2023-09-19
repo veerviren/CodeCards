@@ -63,13 +63,19 @@ class InputeCard : AppCompatActivity() {
             val editText = findViewById<EditText>(R.id.user_input)
             val handle = editText.text.toString()
 
+            if(handle == "") {
+                editText.error = "Please enter a handle"
+                return@setOnClickListener
+            }
+
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.userState.collect { response ->
-                        Log.d("MainActivity", response.toString())
+                        Log.d("InputeCard", "response $response")
                         when (response) {
                             is Resource.Error -> {
                                 Toast.makeText(this@InputeCard, "Error", Toast.LENGTH_SHORT).show()
+                                editText.error = response.message
                             }
 
                             is Resource.Loading -> {
@@ -78,6 +84,7 @@ class InputeCard : AppCompatActivity() {
 
                             is Resource.Success -> {
                                 val user = response.data
+
                                 if (user != null) {
                                     val intent = Intent(this@InputeCard, MainActivity::class.java)
                                     intent.putExtra("text", handle);

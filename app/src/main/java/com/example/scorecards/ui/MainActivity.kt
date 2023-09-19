@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity() {
 
                             binding.apply {
                                 userName.text = user.handle
+                                handle = user.handle
                                 maxRankName.text = getString(R.string.maxRank, user.maxRank)
                                 currentRankName.text = getString(R.string.currentRank, user.rank)
                                 currentRating.text =
@@ -203,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 
                                 val imageView: ImageView = findViewById(R.id.userImage)
 
-                                profileImage = user.titlePhoto 
+                                profileImage = user.titlePhoto
 
                                 Glide.with(this@MainActivity)
                                     .load(profileImage)
