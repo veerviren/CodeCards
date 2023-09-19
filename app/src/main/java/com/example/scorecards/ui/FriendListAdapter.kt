@@ -7,7 +7,7 @@ import com.example.scorecards.R
 import com.example.scorecards.databinding.RecyclerViewItemBinding
 
 class FriendListAdapter(
-      val onDelete: (Friend) -> Unit
+      val onDelete: (String) -> Unit
 ) : ListAdapter<Friend, FriendsViewHolder>(FriendItemDiffCallback()) {
 
     override fun onCreateViewHolder(

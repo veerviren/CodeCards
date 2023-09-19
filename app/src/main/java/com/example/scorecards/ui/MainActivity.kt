@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var handle: String
     private var rating: Int = 0
     private var profileImage = ""
-    private lateinit var lastLoadedImage: Drawable
 
     private lateinit var recyclerView: RecyclerView
 
@@ -112,7 +111,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.friends.collect {
-                    println("HEREEEEEE  =  ${it}")
                     friendsAdapter.submitList(it)
                 }
             }
@@ -121,12 +119,7 @@ class MainActivity : AppCompatActivity() {
         val addButton = bottomSheetView.findViewById<Button>(R.id.add_friend_handle)
 
         addButton.setOnClickListener {
-            println("btn clicked")
-            Toast.makeText(
-                this,
-                "Button Clicked",
-                Toast.LENGTH_SHORT
-            ).show()
+
             val editText = EditText(this)
             editText.setTextColor(Color.BLACK)
             val builder = MaterialAlertDialogBuilder(this)
@@ -135,11 +128,6 @@ class MainActivity : AppCompatActivity() {
             builder.setPositiveButton("OK") { _, _ ->
                 val handle = editText.text.toString()
                 handle.trim()
-                Toast.makeText(
-                    this,
-                    handle + " added",
-                    Toast.LENGTH_SHORT
-                ).show()
                 viewModel.addFriend(handle)
             }
             builder.setNegativeButton("Cancel", null)

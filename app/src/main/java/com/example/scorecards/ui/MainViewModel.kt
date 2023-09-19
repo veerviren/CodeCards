@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
 import com.example.scorecards.utils.Resource
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,6 +45,13 @@ class MainViewModel @Inject constructor(
 
     private val _gradient = MutableStateFlow(GradientDrawable())
     val gradient: StateFlow<GradientDrawable> = _gradient
+
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val userUid = currentUser?.uid
+    private val friendsRef: DatabaseReference? = userUid?.let {
+        database.getReference("users").child(it).child("friends")
+    }
 
     fun getUser(handle: String) = viewModelScope.launch(Dispatchers.IO) {
         _userState.value = Resource.Loading()
@@ -98,26 +108,43 @@ class MainViewModel @Inject constructor(
         }
     }
 
+//    fun addFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
+//        if (friendList.any { it.friendHandle == handle }) return@launch
+//        val response = repository.getUser(handle)
+//        if (response  is zechs.codeforcesapi.utils.Resource.Success) {
+//                val user = response.data
+//                val friend = Friend(
+//                    friendHandle = user.handle,
+//                    friendRating = user.rating.toString(),
+//                    friendAvatar = user.avatar
+//                )
+//                println("HEREEEEEE = ${friend}")
+//                friendList.add(friend)
+//                _friends.value = friendList.toList()
+//            }
+//    }
+
     fun addFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
-        if (friendList.any { it.friendHandle == handle }) return@launch
         val response = repository.getUser(handle)
-        println("HEREEEEEE = ${response}")
-        if (response  is zechs.codeforcesapi.utils.Resource.Success) {
-            println("HEREEEEEE")
-                val user = response.data
-                val friend = Friend(
-                    friendHandle = user.handle,
-                    friendRating = user.rating.toString(),
-                    friendAvatar = user.avatar
-                )
-                println("HEREEEEEE = ${friend}")
-                friendList.add(friend)
-                _friends.value = friendList.toList()
-            }
+        if (response is zechs.codeforcesapi.utils.Resource.Success) {
+            val user = response.data
+
+            val friendUid = user.handle
+            val friendData = mapOf(
+                "friendHandle" to user.handle,
+                "friendRating" to user.rating.toString(),
+                "friendAvatar" to user.avatar
+            )
+            friendsRef?.child(friendUid)?.setValue(friendData)
+        }
     }
 
-    fun removeFriend(friend: Friend) {
-        friendList.remove(friend)
-        _friends.value = friendList.toList()
+//    fun removeFriend(friend: Friend) {
+//        friendList.remove(friend)
+//        _friends.value = friendList.toList()
+//    }
+
+    fun removeFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
+            friendsRef?.child(handle)?.removeValue()
     }
 }

@@ -16,6 +16,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.example.scorecards.R
 import com.example.scorecards.utils.Resource
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.launch
@@ -24,7 +27,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class InputeCard : AppCompatActivity() {
 
-    private lateinit var sharedPreferences: SharedPreferences
     private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,15 +41,22 @@ class InputeCard : AppCompatActivity() {
             .into(imageView)
 
         val button: Button = findViewById(R.id.submit_button)
-        sharedPreferences = getSharedPreferences("USER_INFO", MODE_PRIVATE)
 
-        // Check if handle is available in local storage
-        val savedHandle = sharedPreferences.getString("HANDLE", "")
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userUid = currentUser?.uid
+        val userInfoReference: DatabaseReference? = userUid?.let {
+            database.getReference("users").child(it).child("user_info")
+        }
 
-        if (savedHandle != "") {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("text", savedHandle);
-            startActivity(intent);
+        //Check handle is available in database
+        userInfoReference?.get()?.addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.hasChild("handle")) {
+                val handle = dataSnapshot.child("handle").value.toString()
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("text", handle)
+                startActivity(intent)
+            }
         }
 
         button.setOnClickListener {
@@ -75,10 +84,8 @@ class InputeCard : AppCompatActivity() {
                                     startActivity(intent);
                                 }
 
-                                // save handle locally
-                                val editor = sharedPreferences.edit()
-                                editor.putString("HANDLE", handle)
-                                editor.apply()
+                                //save handle in database
+                                userInfoReference?.child("handle")?.setValue(handle)
                             }
                         }
                     }

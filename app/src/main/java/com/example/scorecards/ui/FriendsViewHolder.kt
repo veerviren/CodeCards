@@ -23,7 +23,7 @@ class FriendsViewHolder(
                 .into(friendAvator)
 
             deleteFriend.setOnClickListener {
-                friendlistAdapter.onDelete.invoke(friend)
+                friendlistAdapter.onDelete.invoke(friendHandle.text.toString())
             }
         }
     }
