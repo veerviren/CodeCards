@@ -65,8 +65,6 @@ class ProfileActivity : AppCompatActivity() {
             editor.putString("PASSWORD", "")
             editor.apply()
 
-            removeHandleFromDatabase(shimmerFrameLayout)
-
             intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
