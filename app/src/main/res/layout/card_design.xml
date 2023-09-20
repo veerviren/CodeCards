@@ -223,14 +223,18 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/show"
+                        style="@style/Widget.Material3.Button.IconButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="More \n Info"
-                        android:backgroundTint="@color/cardview_dark_background"
+                        app:icon="@drawable/baseline_keyboard_double_arrow_up_24"
+                        app:iconSize="40dp"
+                        app:iconTint="@color/cardview_light_background"
                         app:layout_constraintBottom_toTopOf="@+id/queSolved"
                         app:layout_constraintEnd_toStartOf="@+id/maxRankName"
+                        app:layout_constraintHorizontal_bias="0.541"
                         app:layout_constraintStart_toEndOf="@+id/currentRankName"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
