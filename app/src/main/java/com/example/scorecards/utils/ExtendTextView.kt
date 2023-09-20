@@ -28,10 +28,10 @@ fun TextView.makeFirstLetterUpperCase() {
     text = firstChar + restChar
 }
 
-fun TextView.canLegendaryGrandmaster(userRating: Int, userName: TextView)
+fun TextView.canLegendaryGrandmaster(userRating: Int)
 {
     if (userRating >= 3000) {
-        changeLegendaryGrandmasterColor(userName)
+        changeLegendaryGrandmasterColor(this)
     }
 }
 fun changeLegendaryGrandmasterColor(view: TextView) {

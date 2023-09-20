@@ -5,13 +5,17 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
 import com.example.scorecards.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +31,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: CodeforcesRepository
 ) : ViewModel() {
+
+
 
     private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState: StateFlow<Resource<User>> = _userState
@@ -51,6 +57,31 @@ class MainViewModel @Inject constructor(
     private val userUid = currentUser?.uid
     private val friendsRef: DatabaseReference? = userUid?.let {
         database.getReference("users").child(it).child("friends")
+    }
+
+    private val valueEventListener = object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val friendsList = mutableListOf<Friend>()
+            for (friendSnapshot in snapshot.children) {
+                val friend = friendSnapshot.getValue(FirebaseFriend::class.java)
+                friend?.let { friendsList.add(it.toFriend()) }
+            }
+            _friends.value = friendsList
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            // Handle error if needed
+            error.toException().printStackTrace()
+        }
+    }
+
+    init {
+        friendsRef?.addValueEventListener(valueEventListener)
+    }
+
+    override fun onCleared() {
+        friendsRef?.removeEventListener(valueEventListener)
+        super.onCleared()
     }
 
     fun getUser(handle: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -123,6 +154,7 @@ class MainViewModel @Inject constructor(
 //                _friends.value = friendList.toList()
 //            }
 //    }
+
 
     fun addFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = repository.getUser(handle)

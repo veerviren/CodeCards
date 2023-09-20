@@ -1,16 +1,24 @@
 package com.example.scorecards.ui
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.scorecards.R
+import com.example.scorecards.databinding.ActivityProfileBinding
 import com.example.scorecards.utils.canLegendaryGrandmaster
 import com.example.scorecards.utils.setTextColorBasedOnRating
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -18,14 +26,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Timer
-import kotlin.concurrent.timerTask
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<MainViewModel>()
+    private lateinit var binding: ActivityProfileBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val profileImage = findViewById<ImageView>(R.id.profileImage)
         val editUsernameButton = findViewById<Button>(R.id.editUsernameButton)
@@ -36,12 +48,32 @@ class ProfileActivity : AppCompatActivity() {
         val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.profileCardshimmerLayout)
         shimmerFrameLayout.hideShimmer()
         val profileImageUrl = intent.getStringExtra("profileImage")
-        Log.d("ProfileActivity", profileImageUrl.toString())
 
         Glide.with(this)
             .load(profileImageUrl)
             .placeholder(R.drawable.loading_effect)
             .error(R.drawable.error)
+            .addListener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ) = false
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    resource?.let {
+                        viewModel.setImageDrawable(resource)
+                    }
+                    return false
+                }
+            })
             .into(profileImage)
 
         val rating = intent.getIntExtra("rating", 0)
@@ -49,7 +81,7 @@ class ProfileActivity : AppCompatActivity() {
         userName.text = intent.getStringExtra("handle")
 
         userName.setTextColorBasedOnRating(rating)
-        userName.canLegendaryGrandmaster(rating, userName)
+        userName.canLegendaryGrandmaster(rating)
 
         editUsernameButton.setOnClickListener {
             removeHandleFromDatabase(shimmerFrameLayout)
@@ -68,6 +100,9 @@ class ProfileActivity : AppCompatActivity() {
             intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
+
+
+        gradientObserver()
     }
 
     private fun removeHandleFromDatabase(shimmerFrameLayout: ShimmerFrameLayout) {
@@ -80,11 +115,19 @@ class ProfileActivity : AppCompatActivity() {
         shimmerFrameLayout.showShimmer(true)
 
         userInfoReference?.child("handle")?.removeValue()?.addOnCompleteListener(this) {
-            if (it.isSuccessful) {
-                shimmerFrameLayout.hideShimmer()
+            shimmerFrameLayout.hideShimmer()
+        }
+    }
+
+    private fun gradientObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.gradient.collect {
+                    binding.profileBottomGradient.background = it
+                    Toast.makeText(this@ProfileActivity, "Gradient Changed", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
-
-
     }
 }

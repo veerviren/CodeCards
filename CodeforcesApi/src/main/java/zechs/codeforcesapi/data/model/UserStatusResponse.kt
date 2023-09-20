@@ -1,11 +1,29 @@
 package zechs.codeforcesapi.data.model
 
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 data class UserStatusResponse(
     val status: String,
     val result: List<StatusResult>?,
     val comment: String?,
 ) {
+    fun getSubmittedProblemsByday(): MutableMap<String, Int> {
+        val problemCountByDay = mutableMapOf<String, Int>()
 
+        // Define a date format
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+
+        for (contest in result!!) {
+            val date = Date(contest.creationTimeSeconds * 1000)
+            val day = dateFormat.format(date)
+
+            problemCountByDay[day] = problemCountByDay.getOrDefault(day, 0) + 1
+        }
+
+        return problemCountByDay
+    }
     fun getAcceptedProblems(): Int? {
         return result
             ?.filter { it.verdict != null && it.verdict=="OK"}
@@ -15,7 +33,8 @@ data class UserStatusResponse(
 }
 
 data class StatusResult(
-    val verdict: String?
+    val verdict: String?,
+    val creationTimeSeconds: Long
 )
 
 data class Problem(

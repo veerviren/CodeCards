@@ -83,8 +83,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("handle", handle)
             intent.putExtra("profileImage", profileImage)
-            startActivity(intent)
-
             intent.putExtra("rating", rating)
             startActivity(intent)
         }
@@ -102,11 +100,11 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.show()
         }
 
-        recyclerView = bottomSheetView.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val friendListRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.recycler_view)
+        friendListRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
 
-        recyclerView.adapter = friendsAdapter
+        friendListRecyclerView.adapter = friendsAdapter
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -200,7 +198,7 @@ class MainActivity : AppCompatActivity() {
 
                                 maxRankName.setTextColorBasedOnRating(user.maxRating)
 
-                                userName.canLegendaryGrandmaster(user.rating, userName)
+                                userName.canLegendaryGrandmaster(user.rating)
 
                                 val imageView: ImageView = findViewById(R.id.userImage)
 
@@ -239,11 +237,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        recyclerView = bottomSheetView.findViewById(R.id.upcoming_contest_recyclerview)
-        recyclerView.adapter = contestAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+        val contestListRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.upcoming_contest_recyclerview)
+        contestListRecyclerView.adapter = contestAdapter
+        contestListRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
         val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
+        snapHelper.attachToRecyclerView(contestListRecyclerView)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -276,9 +274,9 @@ class MainActivity : AppCompatActivity() {
                                 contestAdapter.submitList(upcomingContests.toList())
 
                                 var currentPage = 0
-                                updateButtonVisibility(currentPage, recyclerView, prevButtonContest, nextButtonContest)
+                                updateButtonVisibility(currentPage, contestListRecyclerView, prevButtonContest, nextButtonContest)
 
-                                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                                contestListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                                         super.onScrolled(recyclerView, dx, dy)
                                         currentPage = getCurrentPage(recyclerView)
@@ -286,9 +284,9 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 })
 
-                                setupNavigationButtons(recyclerView, nextButtonContest, prevButtonContest)
+                                setupNavigationButtons(contestListRecyclerView, nextButtonContest, prevButtonContest)
                             } else {
-                                recyclerView.visibility = View.GONE
+                                contestListRecyclerView.visibility = View.GONE
                             }
                         }
                     }
@@ -300,7 +298,8 @@ class MainActivity : AppCompatActivity() {
         userProgressRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
         userProgressRecyclerView.adapter = ratingListAdapter
 
-        snapHelper.attachToRecyclerView(userProgressRecyclerView)
+        val rankProgressSnapHelper = PagerSnapHelper()
+        rankProgressSnapHelper.attachToRecyclerView(userProgressRecyclerView)
 
         lifecycleScope.launch {
             Log.d("MainActivity","rated user launched")

@@ -62,7 +62,7 @@ object NetworkModule {
     ): CodeforcesApi {
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .client(client)
+//            .client(client)
             .baseUrl(CODEFORCES_API_URL)
             .build().create(CodeforcesApi::class.java)
     }

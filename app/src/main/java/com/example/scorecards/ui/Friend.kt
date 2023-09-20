@@ -5,3 +5,5 @@ data class Friend(
     val friendRating: String,
     val friendAvatar: String
 )
+
+
