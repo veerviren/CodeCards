@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -100,6 +101,80 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.show()
         }
 
+        val monthPickerButton = bottomSheetView.findViewById<Button>(R.id.month_picker)
+
+        val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec")
+        var currMonth = 0;
+
+        monthPickerButton.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.month_year_picker, null)
+
+            val builder = MaterialAlertDialogBuilder(this)
+            builder.setView(dialogView)
+
+            val monthTextView = dialogView.findViewById<TextView>(R.id.monthTextView)
+            val negativeButton = dialogView.findViewById<Button>(R.id.negativeButton)
+            val positiveButton = dialogView.findViewById<Button>(R.id.positiveButton)
+
+            monthTextView.text = months[currMonth]
+
+            negativeButton.setOnClickListener {
+                currMonth -= 1
+                if(currMonth < 0) currMonth = 11
+                monthTextView.text = months[currMonth]
+            }
+
+            positiveButton.setOnClickListener {
+                currMonth = (currMonth + 1) % 12
+                monthTextView.text = months[currMonth]
+            }
+
+            builder.setNeutralButton("Cancel", null)
+            builder.setPositiveButton("OK") { _, _ ->
+                monthPickerButton.text = months[currMonth]
+            }
+
+            builder.show()
+        }
+
+        val yearPickerButton = bottomSheetView.findViewById<Button>(R.id.year_picker)
+
+        var currYear = 2023
+
+        yearPickerButton.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.month_year_picker, null)
+
+            val builder = MaterialAlertDialogBuilder(this)
+            builder.setView(dialogView)
+
+            val monthTextView = dialogView.findViewById<TextView>(R.id.monthTextView)
+            val negativeButton = dialogView.findViewById<Button>(R.id.negativeButton)
+            val positiveButton = dialogView.findViewById<Button>(R.id.positiveButton)
+
+            monthTextView.text = currYear.toString()
+
+            negativeButton.setOnClickListener {
+                currYear -= 1
+                monthTextView.text = currYear.toString()
+            }
+
+            positiveButton.setOnClickListener {
+                currYear += 1
+                monthTextView.text = currYear.toString()
+            }
+
+            builder.setNeutralButton("Cancel", null)
+            builder.setPositiveButton("OK") { _, _ ->
+                yearPickerButton.text = currYear.toString()
+            }
+
+            builder.show()
+        }
+
+
+
+
+
         val friendListRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.recycler_view)
         friendListRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -186,8 +261,6 @@ class MainActivity : AppCompatActivity() {
                                     getString(R.string.currentRank, user.rank).replace(" ", "\n")
                                 maxRankName.text.toString().trim()
                                 currentRankName.text.toString().trim()
-                                print(maxRankName)
-                                print(currentRankName)
 
                                 currentRankName.makeFirstLetterUpperCase()
                                 maxRankName.makeFirstLetterUpperCase()
@@ -199,6 +272,9 @@ class MainActivity : AppCompatActivity() {
                                 maxRankName.setTextColorBasedOnRating(user.maxRating)
 
                                 userName.canLegendaryGrandmaster(user.rating)
+
+                                val userSubmissions = user.toatlQuestionsSubmittedByDate
+                                println("userSubmissions: $userSubmissions")
 
                                 val imageView: ImageView = findViewById(R.id.userImage)
 

@@ -230,24 +230,68 @@
             </androidx.recyclerview.widget.RecyclerView>
 
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textColor="@color/cardview_light_background"
-                android:text="Submissions"
-                android:padding="10dp"
-                android:textSize="30sp"
-                android:layout_height="wrap_content">
-
-            </TextView>
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/img_1"
-                >
+                android:orientation="horizontal">
 
-            </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Submissions"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="24sp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/month_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:iconSize="30sp"
+                            android:text="Jan"
+                            android:gravity="center"
+                            app:icon="@drawable/baseline_arrow_drop_up_down_24"
+                            app:iconTint="@color/cardview_light_background"
+                            android:textColor="@color/cardview_light_background"
+                            style="@style/Widget.Material3.Button.IconButton"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/year_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:iconSize="30sp"
+                            android:text="2021"
+                            android:gravity="center"
+                            app:icon="@drawable/baseline_arrow_drop_up_down_24"
+                            app:iconTint="@color/cardview_light_background"
+                            android:textColor="@color/cardview_light_background"
+                            style="@style/Widget.Material3.Button.IconButton"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_1"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
         </LinearLayout>
 
