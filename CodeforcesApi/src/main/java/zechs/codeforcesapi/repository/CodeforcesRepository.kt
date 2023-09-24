@@ -31,7 +31,7 @@ class CodeforcesRepository(
                             return@runInTryCatch Resource.Error(error)
                         } else {
                             val count = status.body()!!.getAcceptedProblems()
-                            println("submission : ${status.body()!!.getSubmittedProblemsByday()}")
+                            val userSubmissions = status.body()!!.getSubmittedProblemsByday()
                             val info = result[0]
                             return@runInTryCatch Resource.Success(
                                 User(
@@ -42,7 +42,8 @@ class CodeforcesRepository(
                                     rating = info.rating,
                                     maxRating = info.maxRating,
                                     maxRank = info.maxRank,
-                                    totalQuestionsSolved = count ?: 0
+                                    totalQuestionsSolved = count ?: 0,
+                                    toatlQuestionsSubmittedByDate = userSubmissions
                                 )
                             )
                         }
