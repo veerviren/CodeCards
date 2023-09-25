@@ -147,9 +147,12 @@ class MainActivity : AppCompatActivity() {
             val builder = MaterialAlertDialogBuilder(this)
             builder.setView(dialogView)
 
+            val pickerTitle = dialogView.findViewById<TextView>(R.id.pickerTitle)
             val monthTextView = dialogView.findViewById<TextView>(R.id.monthTextView)
             val negativeButton = dialogView.findViewById<Button>(R.id.negativeButton)
             val positiveButton = dialogView.findViewById<Button>(R.id.positiveButton)
+
+            pickerTitle.text = "Select Year"
 
             monthTextView.text = currYear.toString()
 
@@ -170,8 +173,6 @@ class MainActivity : AppCompatActivity() {
 
             builder.show()
         }
-
-
 
 
 
