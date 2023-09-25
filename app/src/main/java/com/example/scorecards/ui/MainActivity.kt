@@ -4,16 +4,20 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -39,15 +43,17 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import zechs.codeforcesapi.data.model.Contest
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: CardDesignBinding
-    private lateinit var handle: String
+    private var handle: String = ""
     private var rating: Int = 0
     private var profileImage = ""
+    private lateinit var webView: WebView
 
     private lateinit var recyclerView: RecyclerView
 
@@ -65,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         RatingListAdapter()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
@@ -101,20 +108,40 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.show()
         }
 
+
+
         val monthPickerButton = bottomSheetView.findViewById<Button>(R.id.month_picker)
 
         val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec")
-        var currMonth = 0;
+
+        //get current data in english format and set it to View
+        val currDate = LocalDate.now()
+        var currMonth = months.indexOf(currDate.month.toString().substring(0, 1) + currDate.month.toString().substring(1,3).toLowerCase())
+        var currYear = currDate.year
+
+        val monthPickerTextView = findViewById<TextView>(R.id.monthTextView)
+        monthPickerTextView.text = months[currMonth]
+//
+//        val yearPickerTextView = findViewById<TextView>(R.id.yearTextView)
+//        yearPickerTextView.text = currYear.toString()
+
+        println("currMonth: $currMonth and currYear: $currYear")
+
+        webView = bottomSheetView.findViewById(R.id.SubmissionWebView)
+        webView.webViewClient = WebViewClient()
+        webView.loadUrl("https://codeforces-graph.vercel.app/?handle=$handle&month=${currMonth + 1}&year=${currYear}")
+        webView.settings.javaScriptEnabled = true
+        webView.settings.setSupportZoom(true)
 
         monthPickerButton.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.month_year_picker, null)
+            val dialogViewMonth = layoutInflater.inflate(R.layout.month_picker, null)
 
             val builder = MaterialAlertDialogBuilder(this)
-            builder.setView(dialogView)
+            builder.setView(dialogViewMonth)
 
-            val monthTextView = dialogView.findViewById<TextView>(R.id.monthTextView)
-            val negativeButton = dialogView.findViewById<Button>(R.id.negativeButton)
-            val positiveButton = dialogView.findViewById<Button>(R.id.positiveButton)
+            val monthTextView = dialogViewMonth.findViewById<TextView>(R.id.monthTextView)
+            val negativeButton = dialogViewMonth.findViewById<Button>(R.id.negativeButton)
+            val positiveButton = dialogViewMonth.findViewById<Button>(R.id.positiveButton)
 
             monthTextView.text = months[currMonth]
 
@@ -132,6 +159,10 @@ class MainActivity : AppCompatActivity() {
             builder.setNeutralButton("Cancel", null)
             builder.setPositiveButton("OK") { _, _ ->
                 monthPickerButton.text = months[currMonth]
+                //updatewebview
+                val url = "https://codeforces-graph.vercel.app/?handle=$handle&month=${currMonth + 1}&year=${currYear}"
+                webView.loadUrl(url)
+
             }
 
             builder.show()
@@ -139,42 +170,42 @@ class MainActivity : AppCompatActivity() {
 
         val yearPickerButton = bottomSheetView.findViewById<Button>(R.id.year_picker)
 
-        var currYear = 2023
+
 
         yearPickerButton.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.month_year_picker, null)
 
+            val dialogViewYear = layoutInflater.inflate(R.layout.year_picker, null)
             val builder = MaterialAlertDialogBuilder(this)
-            builder.setView(dialogView)
+            builder.setView(dialogViewYear)
 
-            val pickerTitle = dialogView.findViewById<TextView>(R.id.pickerTitle)
-            val monthTextView = dialogView.findViewById<TextView>(R.id.monthTextView)
-            val negativeButton = dialogView.findViewById<Button>(R.id.negativeButton)
-            val positiveButton = dialogView.findViewById<Button>(R.id.positiveButton)
 
-            pickerTitle.text = "Select Year"
+            val yearTextView = dialogViewYear.findViewById<TextView>(R.id.yearTextView)
+            val negativeButton = dialogViewYear.findViewById<Button>(R.id.yearNegativeButton)
+            val positiveButton = dialogViewYear.findViewById<Button>(R.id.yearPositiveButton)
 
-            monthTextView.text = currYear.toString()
+
+            yearTextView.text = currYear.toString()
 
             negativeButton.setOnClickListener {
                 currYear -= 1
-                monthTextView.text = currYear.toString()
+                yearTextView.text = currYear.toString()
             }
 
             positiveButton.setOnClickListener {
                 currYear += 1
-                monthTextView.text = currYear.toString()
+                yearTextView.text = currYear.toString()
             }
 
             builder.setNeutralButton("Cancel", null)
             builder.setPositiveButton("OK") { _, _ ->
                 yearPickerButton.text = currYear.toString()
+                //updatewebview
+                val url = "https://codeforces-graph.vercel.app/?handle=$handle&year=$currYear&month=${currMonth + 1}"
+                webView.loadUrl(url)
             }
 
             builder.show()
         }
-
-
 
         val friendListRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.recycler_view)
         friendListRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -212,6 +243,7 @@ class MainActivity : AppCompatActivity() {
         if (intent != null) {
             var text = intent.getStringExtra("text")
             handle = text.toString()
+            println("handle is hereeeee: $handle")
         } else {
             handle = "direction_"
             Toast.makeText(this, "Null", Toast.LENGTH_SHORT).show()

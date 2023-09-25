@@ -6,4 +6,6 @@
     <string name="noOfProblems">%d \n Accepted Problems</string>
     <string name="maxRating">Max Rating \n <b>%d</b></string>
     <string name="Newbie"> "#cccccc" </string>
+    <string name="currMonth"> "Jan" </string>
+    <string name="currYear"> "2019" </string>
 </resources>

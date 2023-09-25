@@ -283,15 +283,11 @@
 
             </LinearLayout>
 
-
-            <ImageView
+            <WebView
+                android:id="@+id/SubmissionWebView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/img_1"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:minHeight="20dp"/>
 
         </LinearLayout>
 
