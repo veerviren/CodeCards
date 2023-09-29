@@ -251,33 +251,20 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="end"
                         android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/month_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:iconSize="30sp"
-                            android:text="Jan"
-                            android:gravity="center"
-                            app:icon="@drawable/baseline_arrow_drop_up_down_24"
-                            app:iconTint="@color/cardview_light_background"
-                            android:textColor="@color/cardview_light_background"
-                            style="@style/Widget.Material3.Button.IconButton"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/year_picker"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:iconSize="30sp"
-                            android:text="2021"
+                            android:text="----"
                             android:gravity="center"
                             app:icon="@drawable/baseline_arrow_drop_up_down_24"
                             app:iconTint="@color/cardview_light_background"
                             android:textColor="@color/cardview_light_background"
                             style="@style/Widget.Material3.Button.IconButton"/>
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -286,8 +273,7 @@
             <WebView
                 android:id="@+id/SubmissionWebView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="20dp"/>
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
