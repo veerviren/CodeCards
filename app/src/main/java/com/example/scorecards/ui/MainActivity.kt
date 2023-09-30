@@ -119,11 +119,6 @@ class MainActivity : AppCompatActivity() {
 
         println("currMonth: $currMonth and currYear: $currYear")
 
-        webView = bottomSheetView.findViewById(R.id.SubmissionWebView)
-        webView.webViewClient = WebViewClient()
-        webView.loadUrl("https://codeforces-graph.vercel.app/?handle=$handle&year=${currYear}")
-        webView.settings.javaScriptEnabled = true
-        webView.settings.setSupportZoom(true)
 
         val yearPickerButton = bottomSheetView.findViewById<Button>(R.id.year_picker)
         yearPickerButton.text = currYear.toString()
@@ -392,6 +387,11 @@ class MainActivity : AppCompatActivity() {
                         is Resource.Success -> {
                             Log.d("MainActivity","rated user Success")
                             Toast.makeText(this@MainActivity, "Success2", Toast.LENGTH_SHORT).show()
+
+                            webView = bottomSheetView.findViewById(R.id.SubmissionWebView)
+                            webView.webViewClient = WebViewClient()
+                            webView.loadUrl("https://codeforces-graph.vercel.app/?handle=$handle&year=${currYear}")
+                            webView.settings.javaScriptEnabled = true
 
                             val contestRating = response.data
 
