@@ -392,6 +392,7 @@ class MainActivity : AppCompatActivity() {
                             webView.webViewClient = WebViewClient()
                             webView.loadUrl("https://codeforces-graph.vercel.app/?handle=$handle&year=${currYear}")
                             webView.settings.javaScriptEnabled = true
+                            webView.settings.builtInZoomControls = true
 
                             val contestRating = response.data
 
