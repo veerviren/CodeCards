@@ -15,11 +15,14 @@
         android:theme="@style/Theme.ScoreCards"
         tools:targetApi="31">
         <activity
+            android:name=".ui.LeetCodeCard"
+            android:exported="false" />
+        <activity
             android:name=".ui.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.Registration"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.Login"
             android:exported="true">
@@ -37,7 +40,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.InputeCard"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

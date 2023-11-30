@@ -1,5 +1,6 @@
 package com.example.scorecards.ui
 
+import OnSwipeTouchListener
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
@@ -78,6 +79,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = CardDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //on swip left print in console
+        binding.root.setOnTouchListener(object : OnSwipeTouchListener(this@MainActivity) {
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+                println("swiped left")
+                val intent = Intent(this@MainActivity, LeetCodeCard::class.java)
+                startActivity(intent)
+            }
+        })
 
         val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
         shimmerFrameLayout.showShimmer(true)
