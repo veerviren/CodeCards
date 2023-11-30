@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val friendListRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.recycler_view)
-        friendListRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        friendListRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
         friendListRecyclerView.adapter = friendsAdapter
