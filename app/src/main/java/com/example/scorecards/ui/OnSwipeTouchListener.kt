@@ -13,7 +13,7 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        return event.let { gestureDetector.onTouchEvent(it!!) }
+        return event?.let { gestureDetector.onTouchEvent(it) } ?: false
     }
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
@@ -30,8 +30,8 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            val diffX = e1?.x?.let { e2?.x?.minus(it) } ?: 0f
-            val diffY = e1?.y?.let { e2?.y?.minus(it) } ?: 0f
+            val diffX = e1?.x?.let { e2.x - it } ?: 0f
+            val diffY = e1?.y?.let { e2.y - it } ?: 0f
 
             if (abs(diffX) > abs(diffY) &&
                 abs(diffX) > SWIPE_THRESHOLD &&
@@ -43,6 +43,11 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
                     onSwipeLeft()
                 }
                 return true
+            } else if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                if (diffY < 0) {
+                    onSwipeUp()
+                }
+                return true
             }
 
             return false
@@ -52,4 +57,7 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
     open fun onSwipeLeft() {}
 
     open fun onSwipeRight() {}
+
+    open fun onSwipeUp() {}
 }
+

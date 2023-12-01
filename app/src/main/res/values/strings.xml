@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScoreCards</string>
+    <string name="app_name">CodeCards</string>
     <string name="maxRank"><b>%s</b></string>
     <string name="currentRank"><b>%s</b></string>
     <string name="currentRatingNum">Rating \n <b>%d</b></string>

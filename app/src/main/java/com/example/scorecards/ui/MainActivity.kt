@@ -80,28 +80,12 @@ class MainActivity : AppCompatActivity() {
         binding = CardDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //on swip left print in console
-        binding.root.setOnTouchListener(object : OnSwipeTouchListener(this@MainActivity) {
-            @SuppressLint("ClickableViewAccessibility")
-            override fun onSwipeLeft() {
-                super.onSwipeLeft()
-                println("swiped left")
-                val intent = Intent(this@MainActivity, LeetCodeCard::class.java)
-                startActivity(intent)
-            }
-        })
-
         val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
         shimmerFrameLayout.showShimmer(true)
 
         val profileButton = findViewById<Button>(R.id.profileButton)
 
         profileButton.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Profile Button Clicked",
-                Toast.LENGTH_SHORT
-            ).show()
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("handle", handle)
             intent.putExtra("profileImage", profileImage)
@@ -121,6 +105,25 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
         }
+
+        //on swip left print in console
+        binding.root.setOnTouchListener(object : OnSwipeTouchListener(this@MainActivity) {
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+                println("swiped left")
+                val intent = Intent(this@MainActivity, LeetCodeCard::class.java)
+                startActivity(intent)
+            }
+
+            override fun onSwipeUp() {
+                super.onSwipeUp()
+                println("swiped up")
+                bottomSheetDialog.setContentView(bottomSheetView)
+                bottomSheetDialog.show()
+
+            }
+        })
 
         val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec")
 
@@ -398,7 +401,6 @@ class MainActivity : AppCompatActivity() {
 
                         is Resource.Success -> {
                             Log.d("MainActivity","rated user Success")
-                            Toast.makeText(this@MainActivity, "Success2", Toast.LENGTH_SHORT).show()
 
                             webView = bottomSheetView.findViewById(R.id.SubmissionWebView)
                             webView.webViewClient = WebViewClient()

@@ -124,8 +124,6 @@ class ProfileActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.gradient.collect {
                     binding.profileBottomGradient.background = it
-                    Toast.makeText(this@ProfileActivity, "Gradient Changed", Toast.LENGTH_SHORT)
-                        .show()
                 }
             }
         }
