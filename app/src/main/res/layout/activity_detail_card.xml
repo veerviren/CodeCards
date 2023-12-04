@@ -204,31 +204,31 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="avatar"
-                        android:textSize="20sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:text="avatar"-->
+<!--                        android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="45dp"
-                        android:text="handle"
-                        android:textSize="20sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="45dp"-->
+<!--                        android:text="handle"-->
+<!--                        android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="40dp"
-                        android:text="rating"
-                        android:textSize="20sp" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="40dp"-->
+<!--                        android:text="rating"-->
+<!--                        android:textSize="20sp" />-->
+<!--                </LinearLayout>-->
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -238,6 +238,16 @@
                     android:fadeScrollbars="false"
                     android:orientation="vertical"
                     android:scrollbars="vertical"/>
+
+                <TextView
+                    android:id="@+id/recycler_view_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:text="Add friends"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="24sp" />
 
 
                 <LinearLayout

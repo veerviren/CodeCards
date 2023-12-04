@@ -59,6 +59,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
 
+    override fun onBackPressed() {
+        val a = Intent(Intent.ACTION_MAIN)
+        a.addCategory(Intent.CATEGORY_HOME)
+        a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(a)
+    }
+
     private val friendsAdapter by lazy {
         FriendListAdapter(onDelete = { viewModel.removeFriend(it)})
     }
@@ -176,12 +183,25 @@ class MainActivity : AppCompatActivity() {
         val friendListRecyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.recycler_view)
         friendListRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        var friendListRecyclerViewPlaceholder = bottomSheetView.findViewById<TextView>(R.id.recycler_view_placeholder)
+        friendListRecyclerViewPlaceholder.visibility = View.GONE
+
 
         friendListRecyclerView.adapter = friendsAdapter
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.friends.collect {
+                    // check friends list is empty or not
+                    if (it.isEmpty()) {
+                        friendListRecyclerView.visibility = View.GONE
+                        //show textview in place of recyclerview
+                        friendListRecyclerViewPlaceholder.visibility = View.VISIBLE
+
+                    } else {
+                        friendListRecyclerView.visibility = View.VISIBLE
+                        friendListRecyclerViewPlaceholder.visibility = View.GONE
+                    }
                     friendsAdapter.submitList(it)
                 }
             }
