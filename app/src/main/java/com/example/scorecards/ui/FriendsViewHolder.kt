@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scorecards.R
 import com.example.scorecards.databinding.RecyclerViewItemBinding
+import com.example.scorecards.utils.setTextColorBasedOnRating
 
 class FriendsViewHolder(
     private val itemBinding: RecyclerViewItemBinding,
@@ -14,6 +15,7 @@ class FriendsViewHolder(
         itemBinding.apply {
 
             friendHandle.text = friend.friendHandle
+            friendHandle.setTextColorBasedOnRating(friend.friendRating.toInt())
             friendRating.text = friend.friendRating
 
             Glide.with(friendAvator)
