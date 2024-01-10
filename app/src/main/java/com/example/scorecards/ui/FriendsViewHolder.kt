@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scorecards.R
 import com.example.scorecards.databinding.RecyclerViewItemBinding
+import com.example.scorecards.utils.changeLegendaryGrandmasterColor
 import com.example.scorecards.utils.setTextColorBasedOnRating
 
 class FriendsViewHolder(
@@ -16,6 +17,10 @@ class FriendsViewHolder(
 
             friendHandle.text = friend.friendHandle
             friendHandle.setTextColorBasedOnRating(friend.friendRating.toInt())
+            if(friend.friendRating.toInt() > 3000)
+            {
+                changeLegendaryGrandmasterColor(friendHandle)
+            }
             friendRating.text = friend.friendRating
 
             Glide.with(friendAvator)
