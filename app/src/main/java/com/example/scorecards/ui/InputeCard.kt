@@ -32,6 +32,12 @@ class InputeCard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inpute_card)
 
+        val editText = findViewById<EditText>(R.id.user_input)
+        //get handle from shared preferences
+        val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        val handle = sharedPreferences.getString("handle", "")
+        editText.setText(handle)
         val imageView: ImageView = findViewById(R.id.background_img)
         val radius = 50
 
@@ -53,6 +59,8 @@ class InputeCard : AppCompatActivity() {
         userInfoReference?.get()?.addOnSuccessListener { dataSnapshot ->
             if (dataSnapshot.hasChild("handle")) {
                 val handle = dataSnapshot.child("handle").value.toString()
+                //save handle in shared preferences
+                editor.putString("handle", handle)
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("text", handle)
                 startActivity(intent)
@@ -60,7 +68,6 @@ class InputeCard : AppCompatActivity() {
         }
 
         button.setOnClickListener {
-            val editText = findViewById<EditText>(R.id.user_input)
             val handle = editText.text.toString()
 
             if(handle == "") {
@@ -93,6 +100,9 @@ class InputeCard : AppCompatActivity() {
 
                                 //save handle in database
                                 userInfoReference?.child("handle")?.setValue(handle)
+                                //save handle in shared preferences
+                                editor.putString("handle", handle)
+                                editor.apply()
                             }
                         }
                     }

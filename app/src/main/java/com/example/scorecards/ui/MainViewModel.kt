@@ -139,23 +139,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-//    fun addFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
-//        if (friendList.any { it.friendHandle == handle }) return@launch
-//        val response = repository.getUser(handle)
-//        if (response  is zechs.codeforcesapi.utils.Resource.Success) {
-//                val user = response.data
-//                val friend = Friend(
-//                    friendHandle = user.handle,
-//                    friendRating = user.rating.toString(),
-//                    friendAvatar = user.avatar
-//                )
-//                println("HEREEEEEE = ${friend}")
-//                friendList.add(friend)
-//                _friends.value = friendList.toList()
-//            }
-//    }
-
-
     fun addFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = repository.getUser(handle)
         if (response is zechs.codeforcesapi.utils.Resource.Success) {
@@ -170,11 +153,6 @@ class MainViewModel @Inject constructor(
             friendsRef?.child(friendUid)?.setValue(friendData)
         }
     }
-
-//    fun removeFriend(friend: Friend) {
-//        friendList.remove(friend)
-//        _friends.value = friendList.toList()
-//    }
 
     fun removeFriend(handle: String) = viewModelScope.launch(Dispatchers.IO) {
             friendsRef?.child(handle)?.removeValue()
