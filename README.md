@@ -8,7 +8,7 @@ This project is for focusing especially provide user coding platform availabilit
 ## Preview
 
 Handle Input|Home Screen|Add friend|More Info|
-:-----:|:--------:|:--------:|:--------|
+:--------:|:--------:|:--------:|:--------|
 ![Handle Input](/Images/handle_input.png)|![Home_Screen](/Images/home_screen.png)|![Add_friend](/Images/add_friend_dialog.png)|![More Info](/Images/Info_screen.png)
 
 ## Tech stack
