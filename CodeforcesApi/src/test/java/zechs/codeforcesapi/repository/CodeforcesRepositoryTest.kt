@@ -74,12 +74,12 @@ internal class CodeforcesRepositoryTest {
             avatar = "https://userpic.codeforces.org/2731484/avatar/623b9dc16f5fc3c.jpg",
             handle = "direction_",
             titlePhoto = "https://userpic.codeforces.org/2731484/title/19410c8d73316f13.jpg",
-//            fullName = "Viren Variya",
             rank = "newbie",
             rating = 1168,
             maxRating = 1169,
             maxRank = "newbie",
-            totalQuestionsSolved = 16
+            totalQuestionsSolved = 16,
+            toatlQuestionsSubmittedByDate = mutableMapOf("12/03/2033" to 12)
         )
     }
 
